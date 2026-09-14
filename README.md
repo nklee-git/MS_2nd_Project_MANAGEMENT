@@ -1,13 +1,22 @@
 # Fashion AI Agent Appservice (가칭)
-> MS 데이터스쿨 5기 · 2차 프로젝트 · 팀 공유 저장소
+> MS 데이터스쿨 5기 · 2차 프로젝트 · 기획/WBS 문서 저장소
 
 SAP 등 기존 ERP는 그대로 두고 그 옆에 붙는 **AI 재고 리플레니시먼트(수요예측+발주승인) 포인트 솔루션**입니다. 핵심 데모: 품절위험 SKU를 ML이 예측 → Dataverse에 발주추천 생성 → Teams Adaptive Card 승인 → 원클릭 발주 확정.
 
+## 🗂️ 저장소 안내 — 이 저장소는 기획 문서 전용입니다
+
+- **이 저장소** (`MS_2nd_Project_MANAGEMENT`): Obsidian vault 원본. WBS·회의록·아키텍처 설계·기획 문서(`.md`) — 실제 코드·데이터는 없음
+- **코드 저장소** (`MS_2nd_Project_Team`): 실제 코드·데이터가 도는 곳 (`generate_v4.py`, 대시보드 프로젝트 등). 이 문서들이 가리키는 옛 경로(`30.DATA/32. nqnq_data` 등)는 그쪽 저장소 기준
+
+**합류 직후 할 일**: `git clone https://github.com/nklee-git/MS_2nd_Project_MANAGEMENT.git` → 클론된 폴더를 Obsidian에서 새 vault로 열기 → Dataview 플러그인 설치. 상세는 [[2-onboarding-checklist]] 참고. 업데이트는 그때그때 `git pull`.
+
 ## 📢 공지
 - **9/14(월) 아키텍처·테크리드 확정 회의** — [[04.MS-DataSchool/20.PROJECT/22.MS_2nd_Project/00-wbs/03-meetings/2026-09-14-architecture-leadership]]
+- **9/15(화) 멘토링 후속 회의** — [[2026-09-15-mentoring-followup]], 대표님 피드백은 [[2026-09-14-ceo-mentoring]]
 - **9/23(수) 풀 루프 체크포인트** — 예측→Dataverse→Teams 승인→발주확정까지 한 번이라도 끝까지 통과시키는 게 최우선 목표
 - **모두의창업 2기 지원 마감 9/17(목) 16:00** — 학교 프로젝트와 별개 트랙, 팀 전체 참가 예정. 상세: [[91-application-prep]]
 - **2026-09-14 폴더 구조 전면 개편** — 아래 "폴더 구성"이 최신 기준. 예전에 즐겨찾기한 `20.ARCHITECTURE/21. Appservice Core model.md` 같은 경로는 더 이상 없음 — 하위 폴더·파일까지 전부 펼쳐본 상세 가이드는 [[00-folder-structure-guide]] 참고
+- **2026-09-14 저장소 분리** — 이 기획 문서들이 개인 Obsidian 통합 볼트(`OBSIDIAN_v2`)에서 이 저장소로 독립. 코드 저장소(`MS_2nd_Project_Team`)와 완전 분리됨
 
 ## 어디서부터 볼지
 1. [[1-kickoff-brief]] — 프로젝트 방향성 전체 (여기부터 읽기 추천)
@@ -36,7 +45,7 @@ SAP 등 기존 ERP는 그대로 두고 그 옆에 붙는 **AI 재고 리플레�
 
 **넘버링 규칙**: 최상위 폴더는 `00,10,20...90`. 그 하위는 부모의 앞자리를 이어받아 `01,02,03...`(예: `00-wbs` 안은 `01-docs,02-checklists,03-meetings,04-daily-logs`) — 더 깊은 폴더(예: `30-data/31-nqnq-frame`)는 그 안에서 다시 `00,10,20...`으로 새 데카드를 시작함. 새 항목이 필요하면 이어지는 다음 번호를 쓰고, 완전히 새 대분류가 필요할 때만 비어있는 십진 자릿수를 새로 연다.
 
-> ⚠️ 이 저장소(Team GitHub)는 아직 이전 폴더명(`30.DATA/32. nqnq_data` 등)을 씁니다 — 실제 코드·데이터가 도는 곳이라 이번 개편 범위 밖입니다. 문서 안에서 이 저장소 경로를 가리키는 텍스트는 그대로 옛 이름입니다.
+> ⚠️ 별도의 코드 저장소(`MS_2nd_Project_Team`)는 아직 이전 폴더명(`30.DATA/32. nqnq_data` 등)을 씁니다 — 실제 코드·데이터가 도는 곳이라 이번 개편 범위 밖입니다. 이 문서(기획 저장소) 안에서 그 저장소 경로를 가리키는 텍스트는 그대로 옛 이름입니다.
 
 ## 최근 변경사항 (중요한 것만)
 | 날짜 | 내용 |
