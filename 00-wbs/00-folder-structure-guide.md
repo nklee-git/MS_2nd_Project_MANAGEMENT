@@ -20,7 +20,7 @@
   예) `20-architecture` 안의 `20-visual-overview.md`, `30-data` 안의 `30-data-overview.md`, 그리고 이 문서(`00-wbs` 안의 `00-folder-structure-guide.md`)가 이 예외.
 - **예외 2 (날짜 파일명)**: 날짜 자체가 중요한 정보인 파일(회의록, 일일업무일지)은 우선순위 번호 대신 **`YYYY-MM-DD-내용.md`** 형식을 쓴다. 순서가 아니라 "언제"가 핵심이기 때문.
 - **예외 3 (파일이 1개뿐인 폴더)**: `50-databricks`, `60-rag`는 안에 파일이 `readme.md` 하나뿐이라 번호를 안 붙였다 — 여러 파일이 생기면 그때 `51-, 52-` 식으로 번호를 매길 것.
-- **Team GitHub 저장소는 이 규칙 밖**: `MS-DataSchool-Code/22.MS_2nd_Project_Team`은 실제 코드·데이터가 도는 곳이라 아직 옛 폴더명(`30.DATA/32. nqnq_data` 등)을 쓴다. 볼트 문서 안에서 이 저장소 경로를 가리키는 텍스트는 일부러 안 고쳤다.
+- **코드 저장소(`MS_2nd_Project_CODE`, 로컬 폴더명은 아직 `MS-DataSchool-Code/22.MS_2nd_Project_Team`)는 이 규칙 밖**: 실제 코드·데이터가 도는 곳이라 아직 옛 폴더명(`30.DATA/32. nqnq_data` 등)을 쓴다. 볼트 문서 안에서 이 저장소 경로를 가리키는 텍스트는 일부러 안 고쳤다.
 
 ### 2. 최상위 폴더 10개
 
