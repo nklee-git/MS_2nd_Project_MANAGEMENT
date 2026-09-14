@@ -1,5 +1,6 @@
 > 이 문서는 SKU·시즌·프로모션·마케팅·오프라인 확장 계획을 하나의 타임라인으로 통합한 문서입니다.
 > 세부 근거: [[24-sku-growth-roadmap]] · [[45-season-calendar]] · [[47-marketing-plan]] · [[48-offline-store-plan]] · [[44-kpi-definitions]]
+> 엑셀 버전(발표/비개발자 공유용) 같은 폴더에 있음: `2-master-roadmap.xlsx`
 
 ## 🗓️ 반기별 통합 타임라인 (2024.01 ~ 2026.08+)
 

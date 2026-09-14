@@ -1,3 +1,5 @@
+> 실제 브랜드 색상 네이밍 관습 참고: [[3-blackup-benchmark]]
+
 ### 🎨 Visual Concept 
 - **Logo Motif**: N과 Q의 대비 / Z가 데굴굴 굴러서 NQNQ가 되는 타이포그래피. 
 - **Color Palette**: 

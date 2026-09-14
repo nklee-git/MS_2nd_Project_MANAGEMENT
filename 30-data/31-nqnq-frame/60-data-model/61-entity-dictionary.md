@@ -1,4 +1,5 @@
 > 관련 문서: [[62-erd]] · [[22-sku-code-system]] · [[27-size-expansion-plan]] · [[32-inventory-policy]] · [[33-returns-process]] · [[42-channel-settlement]] · [[48-offline-store-plan]]
+> 엑셀 버전(발표/비개발자 공유용) 같은 폴더에 있음: `61-entity-dictionary.xlsx`
 > **2026-09-08 갱신**: 2026.09 SKU 체계 개편(체형태그·사이즈 확장) 반영 — PRODUCT.body_tone_code 의미 변경, SKU.sku_code 포맷 카테고리별 분화, 실제 카탈로그 값(카테고리·사이즈·컬러) 표 추가. **원본 데이터(`nqnq.db`) 재생성은 아직 안 함** — 이 문서는 `generate_v4.py`의 현재 코드 기준으로 작성됐고, 카탈로그(상품·SKU)만 미리 뽑아본 샘플이 있음(나경에게 요청).
 
 ## 📐 설계 원칙

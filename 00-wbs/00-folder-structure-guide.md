@@ -62,7 +62,9 @@
 | `11-docs/3-feature-backlog` | Tier별 기능 백로그 |
 | `11-docs/4-differentiation-ideas` | 차별화 아이디어 논의 기록 |
 | `11-docs/5-dataverse-guide` | Dataverse 스키마·Security Role 실무 가이드 |
+| `11-docs/6-obsidian-guide` | 이 볼트에서 실제 쓰는 Obsidian 기능(위키링크·Dataview 등) 사용법 |
 | `12-market-research/1-hautelogic`, `2-k3-fashion` | 유사 서비스(HauteLogic, K3 Fashion) 기능 정리 |
+| `12-market-research/3-blackup-benchmark` | 실제 브랜드(블랙업) 색상·상품명 네이밍 벤치마크(원자료 txt/xlsx 동봉) |
 
 #### `20-architecture`
 | 경로 | 설명 |

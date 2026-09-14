@@ -1,5 +1,7 @@
 # NQNQ 가상데이터 생성 결과 (v4 — SKU 확장 & 롱테일 반영)
 
+> 데이터 생성 리포트(HTML, 시각화 포함) 같은 폴더에 있음: `3-data-generation-report.html`
+
 > ✅ **2026-09-10 재생성 완료**: 2026.09 체형태그·사이즈 개편(41 스타일/520 SKU) 반영판으로 `nqnq.db` 재생성 — 아래 결과 수치 전부 이번 재생성 기준으로 갱신. `csv_preview/`도 `export_csv_preview.py`로 동시에 재추출함. 개편 상세는 상위 볼트의 [[27-size-expansion-plan]], 필드 단위 설명은 [[61-entity-dictionary]] 참고.
 > ⚠️ 미달 시나리오(`generate_v4_miss.py`)·홀세일(`add_wholesale.py`)은 아직 새 카탈로그로 재실행 안 함 — 하단 두 절의 수치는 구 카탈로그(65/530) 기준 참고용.
 > ✅ **2026-09-11 추가 재생성**: `TODAY` 컷오프를 8/9 → **8/20**으로 수정([[82-ppt-plan]] 설계 원리와 일치)하고 `add_wholesale.py` 재실행 — 아래 결과 수치는 이 재생성 기준으로 갱신. Dataverse 적재용으로 14개 엔터티 전체를 뽑은 `dataverse_import/`(신규 `export_for_dataverse.py`)도 추가됨.

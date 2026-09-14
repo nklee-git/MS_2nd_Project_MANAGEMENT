@@ -1,5 +1,5 @@
 > 상위 문서: [[21-core-categories]]
-> 관련 문서: [[24-sku-growth-roadmap]] · [[27-size-expansion-plan]]
+> 관련 문서: [[24-sku-growth-roadmap]] · [[27-size-expansion-plan]] · [[3-blackup-benchmark]](실제 브랜드 상품명 네이밍 관습 참고)
 
 ## 🔢 SKU 코드 체계
 > **2026.09 개편**: 체형코드(STR/WAV/NAT)는 실제로 다른 상품을 만드는 값이 아니라 스타일링 태그로 바뀌어서 **TOP/PNT/OUT/DRS는 코드에서 그 자리를 뺐다**. CLR은 톤코드(WRM/COOL/MUT)가 실제 염색 색상을 바꾸는 진짜 제품 차원이라 그대로 유지. 근거: [[27-size-expansion-plan]].

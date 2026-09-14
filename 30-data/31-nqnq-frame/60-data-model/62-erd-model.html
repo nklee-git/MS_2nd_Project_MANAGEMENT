@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NQNQ 데이터 모델</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #F3F4F0;
+    --surface: #FFFFFF;
+    --surface-2: #EAECE6;
+    --ink: #1B222B;
+    --ink-soft: #4B5560;
+    --ink-faint: #7C8590;
+    --line: #D6D9D0;
+    --line-strong: #B9BDB0;
+    --accent: #D8397A;
+    --accent-soft: #FBE0EC;
+    --accent-ink: #7A1F45;
+    --amber: #A85F0C;
+    --amber-soft: #F3E4CC;
+    --font-display: "IBM Plex Sans KR", "Noto Sans KR", -apple-system, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14181D;
+      --surface: #1B2027;
+      --surface-2: #20262E;
+      --ink: #EDEFEF;
+      --ink-soft: #AAB1B8;
+      --ink-faint: #7E868D;
+      --line: #333B44;
+      --line-strong: #454F59;
+      --accent: #FF6FA0;
+      --accent-soft: #3A1E29;
+      --accent-ink: #FFC2DA;
+      --amber: #E0A857;
+      --amber-soft: #3A2E1A;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #14181D;
+    --surface: #1B2027;
+    --surface-2: #20262E;
+    --ink: #EDEFEF;
+    --ink-soft: #AAB1B8;
+    --ink-faint: #7E868D;
+    --line: #333B44;
+    --line-strong: #454F59;
+    --accent: #FF6FA0;
+    --accent-soft: #3A1E29;
+    --accent-ink: #FFC2DA;
+    --amber: #E0A857;
+    --amber-soft: #3A2E1A;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-display);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { max-width: 100%; }
+  [hidden]:not([hidden="until-found"]) { display: none !important; }
+
+  h1, h2, h3 { text-wrap: balance; font-weight: 700; margin: 0; }
+
+  code, .mono { font-family: var(--font-mono); }
+
+  a { color: var(--accent-ink); }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  .wrap.wide { max-width: 1080px; }
+
+  /* ---------- masthead ---------- */
+  .masthead {
+    border-bottom: 1px solid var(--line);
+    padding: 40px 0 20px;
+    margin-bottom: 8px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 3px;
+    margin-bottom: 14px;
+  }
+
+  h1.title { font-size: clamp(28px, 4vw, 38px); letter-spacing: -0.01em; }
+
+  .subtitle {
+    margin-top: 10px;
+    font-size: 16px;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  .meta-row {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+  }
+
+  .meta-row span b { color: var(--ink-soft); font-weight: 500; }
+
+  /* section nav */
+  .section-nav {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+    padding: 10px 0;
+    margin-bottom: 36px;
+  }
+
+  .section-nav .wrap { display: flex; gap: 6px; overflow-x: auto; padding-top: 0; padding-bottom: 0; }
+
+  .section-nav a {
+    flex-shrink: 0;
+    font-size: 12.5px;
+    font-family: var(--font-mono);
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    white-space: nowrap;
+  }
+
+  .section-nav a:hover { border-color: var(--accent); color: var(--accent-ink); }
+
+  /* ---------- sections ---------- */
+  section { margin: 56px 0; scroll-margin-top: 64px; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  h2.h { font-size: 22px; margin-bottom: 6px; }
+  .section-desc { color: var(--ink-soft); font-size: 14.5px; max-width: 68ch; margin-bottom: 24px; }
+
+  p { max-width: 68ch; }
+
+  /* ---------- principle cards ---------- */
+  .principle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  .principle-card {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .principle-card .tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+
+  .principle-card p { font-size: 14px; color: var(--ink-soft); margin: 0; max-width: none; }
+
+  /* ---------- blueprint frame (diagrams) ---------- */
+  .plate {
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    background: var(--surface);
+    padding: 22px 22px 16px;
+    position: relative;
+  }
+
+  .plate::before, .plate::after,
+  .plate .corner-br, .plate .corner-tl { display: none; }
+
+  .plate-corners { position: relative; }
+  .plate-corners > span {
+    position: absolute;
+    width: 12px; height: 12px;
+    border-color: var(--line-strong);
+  }
+  .plate-corners > span.tl { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
+  .plate-corners > span.tr { top: -1px; right: -1px; border-top: 2px solid; border-right: 2px solid; }
+  .plate-corners > span.bl { bottom: -1px; left: -1px; border-bottom: 2px solid; border-left: 2px solid; }
+  .plate-corners > span.br { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
+
+  .plate-cap {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+
+  .plate .scroll-x { overflow-x: auto; }
+
+  .plate svg { display: block; overflow: hidden; }
+  .plate .scroll-x svg { min-width: 640px; }
+
+  svg text { fill: currentColor; }
+
+  /* ---------- tables ---------- */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--surface); }
+
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td.wrap-cell { white-space: normal; }
+
+  th {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    background: var(--surface-2);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  td code { background: var(--surface-2); padding: 1px 6px; border-radius: 3px; font-size: 12.5px; }
+
+  /* ---------- stat tiles ---------- */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .stat-tile {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+
+  .stat-tile .n {
+    font-family: var(--font-mono);
+    font-size: 30px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  .stat-tile .n small { font-size: 15px; color: var(--ink-faint); font-weight: 400; }
+  .stat-tile .l { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
+  .stat-tile.accent { border-color: var(--accent); background: var(--accent-soft); }
+  .stat-tile.accent .n { color: var(--accent-ink); }
+
+  /* ---------- callout ---------- */
+  .callout {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--amber);
+    background: var(--amber-soft);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--ink);
+    max-width: none;
+  }
+
+  .callout.pink { border-left-color: var(--accent); background: var(--accent-soft); }
+  .callout b { font-weight: 600; }
+  .callout code { background: color-mix(in srgb, var(--surface) 60%, transparent); padding: 1px 5px; border-radius: 3px; }
+
+  /* ---------- changelog ---------- */
+  .timeline { border-left: 2px solid var(--line-strong); margin-left: 6px; padding-left: 22px; display: flex; flex-direction: column; gap: 18px; }
+
+  .timeline-item { position: relative; }
+
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -28px;
+    top: 4px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+
+  .timeline-item .v {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+  }
+
+  .timeline-item p { display: inline; font-size: 14px; color: var(--ink-soft); }
+
+  /* ---------- backlog ---------- */
+  .backlog-list { display: flex; flex-direction: column; gap: 10px; }
+  .backlog-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 16px;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    align-items: start;
+  }
+  .backlog-row .name { font-family: var(--font-mono); font-size: 13.5px; color: var(--ink); font-weight: 500; }
+  .backlog-row .why { font-size: 13.5px; color: var(--ink-soft); }
+
+  footer {
+    margin-top: 72px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    font-family: var(--font-mono);
+    color: var(--ink-faint);
+  }
+
+  .mermaid-diagram { margin-block: 4px; }
+  .mermaid-diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+
+  @media (max-width: 640px) {
+    .backlog-row { grid-template-columns: 1fr; }
+  }
+</style>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+</head>
+<body>
+
+<div class="section-nav">
+  <div class="wrap wide">
+    <a href="#principles">설계 원칙</a>
+    <a href="#overview">전체 구조</a>
+    <a href="#erd">ERD</a>
+    <a href="#rules">핵심 규칙</a>
+    <a href="#scale">카탈로그 규모</a>
+    <a href="#changelog">변경 이력</a>
+    <a href="#backlog">확장 백로그</a>
+  </div>
+</div>
+
+<div class="masthead">
+  <div class="wrap">
+    <span class="eyebrow">DATA MODEL · 71 · 72</span>
+    <h1 class="title">NQNQ 데이터 모델</h1>
+    <p class="subtitle">
+      가상 브랜드 NQNQ의 재고 리플레니시먼트 핵심 트랜잭션을 나타내는 14개 엔티티 ERD.
+      <code class="mono">71. Entity Definitions &amp; Data Dictionary</code>와
+      <code class="mono">72. Entity Relationship Diagram</code> 두 문서를 하나로 묶어 시각화했습니다.
+    </p>
+    <div class="meta-row">
+      <span><b>최종 갱신</b> 2026-09-11</span>
+      <span><b>엔티티</b> 14개</span>
+      <span><b>버전</b> v1.7</span>
+      <span><b>스코프</b> 판매 트랜잭션 핵심 흐름 (운영·관리 엔티티는 백로그)</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap wide">
+
+  <section id="principles">
+    <div class="section-label">01 · 설계 원칙</div>
+    <h2 class="h">왜 이렇게 나눴는가</h2>
+    <p class="section-desc">엔티티를 쪼갠 기준은 전부 "조회 속도"와 "책임 분리" 두 가지로 설명됩니다.</p>
+    <div class="principle-grid">
+      <div class="principle-card">
+        <span class="tag">PRODUCT ↔ SKU</span>
+        <p>스타일(기획 단위)과 판매 최소단위(사이즈·컬러 조합)를 분리. 체형전용 스타일 × 사이즈 × 컬러 구조를 그대로 반영해, 상품 기획과 실제 판매 재고를 각자 다른 속도로 다룰 수 있게 함.</p>
+      </div>
+      <div class="principle-card">
+        <span class="tag">INVENTORY ↔ INVENTORY_LEDGER</span>
+        <p>현재 재고 수량은 스냅샷 테이블에서 즉시 조회하고, 입출고 이동 이력은 별도 로그로 쌓음. 감사·트러블슈팅 때 "왜 이 수량이 됐는지"를 스냅샷을 헤치지 않고 추적 가능.</p>
+      </div>
+      <div class="principle-card">
+        <span class="tag">CHANNEL ↔ STORE</span>
+        <p>수수료가 걸리는 유통 채널(지그재그 등)과 팝업·쇼룸 같은 물리적 공간은 성격이 다른 개념이라 별도 엔티티로 분리 — 채널 정산과 매장 운영을 독립적으로 확장 가능.</p>
+      </div>
+      <div class="principle-card">
+        <span class="tag">스코프 경계</span>
+        <p>1차 모델링은 판매 트랜잭션 핵심 흐름에만 집중. STAFF·TASK·CAMPAIGN 같은 운영/관리 성격 엔티티는 하단 확장 백로그로 분리해 스코프 팽창을 막음.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="naming">
+    <div class="section-label">02 · 네이밍 컨벤션</div>
+    <h2 class="h">테이블·컬럼명만 보고 역할을 알 수 있게</h2>
+    <p class="section-desc">토스플레이스 PANDA 사례의 SSOT 컨벤션 원칙을 참고해 명문화 — 신규 엔티티(백로그의 ALERT_LOG·TASK·CAMPAIGN 등) 설계 시부터 적용됩니다.</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>대상</th><th>규칙</th><th>예시</th></tr></thead>
+        <tbody>
+          <tr><td>테이블(엔터티)명</td><td>대문자 단수 명사</td><td><code>PRODUCT</code>, <code>INVENTORY_LEDGER</code></td></tr>
+          <tr><td>PK 컬럼</td><td><code>{entity}_id</code> 또는 도메인 코드</td><td><code>product_id</code>, <code>sku_code</code></td></tr>
+          <tr><td>FK 컬럼</td><td>참조 대상 PK와 동일한 이름 유지 (별칭 금지)</td><td><code>SKU.product_id</code> → <code>PRODUCT.product_id</code></td></tr>
+          <tr><td>상태/분류 컬럼</td><td><code>status</code> / <code>{domain}_tier</code> / <code>{domain}_code</code></td><td><code>popularity_tier</code>, <code>body_tone_code</code></td></tr>
+          <tr><td>이력·로그 테이블</td><td><code>{원본}_LEDGER</code> 또는 <code>{원본}_LOG</code></td><td><code>INVENTORY_LEDGER</code>, (백로그) <code>ALERT_LOG</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="overview">
+    <div class="section-label">03 · 전체 구조</div>
+    <h2 class="h">데이터가 흐르는 5개 구역</h2>
+    <p class="section-desc">14개 엔티티를 도메인별로 묶으면 상품 → 생산 → 재고 → 판매 순으로 흐르고, 채널·매장이 판매 쪽에 주문을 흘려보내는 구조입니다. 아래는 세부 필드를 뺀 뼈대만 보는 그림 — 필드까지 다 보려면 바로 아래 ERD로.</p>
+    <div class="plate plate-corners">
+      <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+      <div class="scroll-x">
+        <svg viewBox="0 0 1040 260" role="img" aria-label="상품 마스터가 생산·구매와 재고로 흘러가고, 재고가 판매 트랜잭션과 서로 주고받으며, 채널·매장이 판매 트랜잭션에 주문을 공급하는 5개 도메인 구역 다이어그램">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <!-- cluster boxes -->
+          <g font-family="IBM Plex Sans KR, sans-serif">
+            <!-- 상품 마스터 -->
+            <rect x="10" y="60" width="160" height="140" rx="8" fill="none" stroke="currentColor" stroke-opacity="0.35"/>
+            <text x="90" y="46" text-anchor="middle" font-size="12.5" font-weight="600">상품 마스터</text>
+            <rect x="26" y="76" width="128" height="26" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+            <text x="90" y="93" text-anchor="middle" font-size="11.5" class="mono" font-family="IBM Plex Mono, monospace">CATEGORY</text>
+            <rect x="26" y="112" width="128" height="26" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+            <text x="90" y="129" text-anchor="middle" font-size="11.5" font-family="IBM Plex Mono, monospace">PRODUCT</text>
+            <rect x="26" y="148" width="128" height="26" rx="4" fill="none" stroke="currentColor"/>
+            <text x="90" y="165" text-anchor="middle" font-size="11.5" font-family="IBM Plex Mono, monospace">SKU</text>
+
+            <!-- 생산·구매 -->
+            <rect x="230" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-opacity="0.35"/>
+            <text x="310" y="4" text-anchor="middle" font-size="12.5" font-weight="600">생산·구매</text>
+            <rect x="246" y="36" width="128" height="26" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+            <text x="310" y="53" text-anchor="middle" font-size="11" font-family="IBM Plex Mono, monospace">FACTORY / PO</text>
+            <rect x="246" y="70" width="128" height="26" rx="4" fill="none" stroke="currentColor"/>
+            <text x="310" y="87" text-anchor="middle" font-size="11.5" font-family="IBM Plex Mono, monospace">PO_ITEM</text>
+
+            <!-- 재고 -->
+            <rect x="450" y="60" width="160" height="140" rx="8" fill="none" stroke="var(--accent)" stroke-opacity="0.6"/>
+            <text x="530" y="46" text-anchor="middle" font-size="12.5" font-weight="600">재고</text>
+            <rect x="466" y="94" width="128" height="26" rx="4" fill="none" stroke="currentColor"/>
+            <text x="530" y="111" text-anchor="middle" font-size="11" font-family="IBM Plex Mono, monospace">INVENTORY</text>
+            <rect x="466" y="130" width="128" height="26" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+            <text x="530" y="147" text-anchor="middle" font-size="10.5" font-family="IBM Plex Mono, monospace">INVENTORY_LEDGER</text>
+
+            <!-- 판매 트랜잭션 -->
+            <rect x="670" y="40" width="180" height="180" rx="8" fill="none" stroke="currentColor" stroke-opacity="0.35"/>
+            <text x="760" y="26" text-anchor="middle" font-size="12.5" font-weight="600">판매 트랜잭션</text>
+            <rect x="686" y="56" width="148" height="26" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+            <text x="760" y="73" text-anchor="middle" font-size="11" font-family="IBM Plex Mono, monospace">CUSTOMER</text>
+            <rect x="686" y="90" width="148" height="26" rx="4" fill="none" stroke="currentColor"/>
+            <text x="760" y="107" text-anchor="middle" font-size="11.5" font-family="IBM Plex Mono, monospace">ORDERS</text>
+            <rect x="686" y="124" width="148" height="26" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+            <text x="760" y="141" text-anchor="middle" font-size="11" font-family="IBM Plex Mono, monospace">ORDER_ITEM</text>
+            <rect x="686" y="158" width="148" height="26" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+            <text x="760" y="175" text-anchor="middle" font-size="10.5" font-family="IBM Plex Mono, monospace">RETURN_REQUEST</text>
+
+            <!-- 채널·매장 -->
+            <rect x="900" y="60" width="130" height="100" rx="8" fill="none" stroke="currentColor" stroke-opacity="0.35"/>
+            <text x="965" y="46" text-anchor="middle" font-size="12.5" font-weight="600">채널·매장</text>
+            <rect x="914" y="76" width="102" height="26" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+            <text x="965" y="93" text-anchor="middle" font-size="11.5" font-family="IBM Plex Mono, monospace">CHANNEL</text>
+            <rect x="914" y="112" width="102" height="26" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+            <text x="965" y="129" text-anchor="middle" font-size="11.5" font-family="IBM Plex Mono, monospace">STORE</text>
+
+            <!-- arrows -->
+            <line x1="170" y1="90" x2="244" y2="60" stroke="currentColor" stroke-opacity="0.7" marker-end="url(#arrow)"/>
+            <line x1="170" y1="150" x2="464" y2="140" stroke="currentColor" stroke-opacity="0.7" marker-end="url(#arrow)"/>
+            <line x1="310" y1="96" x2="490" y2="130" stroke="currentColor" stroke-opacity="0.7" marker-end="url(#arrow)"/>
+            <text x="390" y="112" text-anchor="middle" font-size="10.5" fill="var(--ink-faint,#7C8590)">입고</text>
+
+            <line x1="610" y1="130" x2="684" y2="115" stroke="var(--accent)" marker-end="url(#arrow)"/>
+            <text x="648" y="112" text-anchor="middle" font-size="10.5" fill="var(--accent)">판매출고</text>
+            <line x1="684" y1="170" x2="612" y2="150" stroke="var(--accent)" marker-end="url(#arrow)"/>
+            <text x="648" y="188" text-anchor="middle" font-size="10.5" fill="var(--accent)">반품입고</text>
+
+            <line x1="898" y1="110" x2="836" y2="100" stroke="currentColor" stroke-opacity="0.7" marker-end="url(#arrow)"/>
+            <text x="866" y="90" text-anchor="middle" font-size="10.5" fill="var(--ink-faint,#7C8590)">주문 유입</text>
+          </g>
+        </svg>
+      </div>
+      <div class="plate-cap"><span>FIG. 1</span><span>도메인 클러스터 개요 — 5구역, 세부 필드 생략</span></div>
+    </div>
+  </section>
+
+  <section id="erd">
+    <div class="section-label">04 · 전체 ERD</div>
+    <h2 class="h">14개 엔티티 · 전체 필드</h2>
+    <p class="section-desc">71번 문서의 데이터 딕셔너리를 그대로 관계도로 옮긴 버전. PK/FK와 모든 필드가 표시됩니다 — 실제 화면(승인이력·예측대조)이 참조하는 <code class="mono">SKU</code>·<code class="mono">INVENTORY</code>가 가운데 축입니다.</p>
+    <div class="plate plate-corners">
+      <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+      <div class="scroll-x">
+        <pre class="mermaid">
+erDiagram
+  CATEGORY ||--o{ PRODUCT : has
+  PRODUCT ||--o{ SKU : has
+  FACTORY ||--o{ PURCHASE_ORDER : fulfills
+  PURCHASE_ORDER ||--o{ PO_ITEM : contains
+  SKU ||--o{ PO_ITEM : ordered_as
+  SKU ||--o{ INVENTORY : tracked_in
+  SKU ||--o{ INVENTORY_LEDGER : moves
+  CHANNEL ||--o{ ORDERS : receives
+  CUSTOMER ||--o{ ORDERS : places
+  ORDERS ||--o{ ORDER_ITEM : contains
+  SKU ||--o{ ORDER_ITEM : sold_as
+  ORDERS ||--o{ RETURN_REQUEST : may_have
+  SKU ||--o{ RETURN_REQUEST : returned_as
+  STORE ||--o{ ORDERS : optional_source
+
+  CATEGORY {
+    string category_code PK
+    string name
+  }
+  PRODUCT {
+    string product_id PK
+    string category_code FK
+    string style_name
+    string body_tone_code
+    string season
+    string status
+    string line_type
+    string popularity_tier
+    date launch_date
+  }
+  SKU {
+    string sku_code PK
+    string product_id FK
+    string size
+    string color_code
+    int price
+    int cost
+  }
+  FACTORY {
+    string factory_id PK
+    string name
+    int moq
+    int lead_time_days
+    string payment_terms
+  }
+  PURCHASE_ORDER {
+    string po_id PK
+    string factory_id FK
+    date order_date
+    date expected_arrival_date
+    string status
+  }
+  PO_ITEM {
+    string po_id FK
+    string sku_code FK
+    int qty
+    int unit_cost
+  }
+  INVENTORY {
+    string sku_code PK
+    string location_id PK
+    int available_qty
+    int reserved_qty
+    int defective_qty
+    int pending_return_qty
+    int safety_stock
+    int reorder_point
+    datetime last_updated
+  }
+  INVENTORY_LEDGER {
+    string ledger_id PK
+    string sku_code FK
+    string location_id
+    string movement_type
+    int qty_change
+    string reference_id
+    datetime movement_date
+  }
+  CHANNEL {
+    string channel_id PK
+    string name
+    float commission_rate
+    string settlement_cycle
+  }
+  CUSTOMER {
+    string customer_id PK
+    string persona_segment
+    string signup_channel
+    date signup_date
+  }
+  ORDERS {
+    string order_id PK
+    string customer_id FK
+    string channel_id FK
+    string store_id FK
+    datetime order_date
+    string status
+    int total_amount
+  }
+  ORDER_ITEM {
+    string order_id FK
+    string sku_code FK
+    int qty
+    int unit_price
+  }
+  RETURN_REQUEST {
+    string return_id PK
+    string order_id FK
+    string sku_code FK
+    string reason_code
+    string status
+    date request_date
+    string resolution
+  }
+  STORE {
+    string store_id PK
+    string type
+    string location
+    date open_date
+    date close_date
+  }
+        </pre>
+      </div>
+      <div class="plate-cap"><span>FIG. 2</span><span>핵심 트랜잭션 ERD — 원본: 72. Entity Relationship Diagram · v1.7</span></div>
+    </div>
+  </section>
+
+  <section id="rules">
+    <div class="section-label">05 · 핵심 규칙</div>
+    <h2 class="h">스키마만 보고는 안 보이는 것들</h2>
+    <p class="section-desc">다이어그램의 타입 표기(<code class="mono">string</code>)만 보면 놓치는, 2026.09 SKU 체계 개편과 v5(2026-09-11) 재고 구조 개편에서 나온 다섯 가지 함정입니다.</p>
+
+    <h3 style="font-size:15px; margin: 28px 0 10px;">① <code class="mono">body_tone_code</code>는 카테고리마다 완전히 다른 뜻</h3>
+    <p style="font-size:14px; color:var(--ink-soft); max-width:68ch; margin-bottom:14px;">같은 컬럼인데 카테고리별로 "태그"였다가 "진짜 다른 상품"이었다가 합니다 — 조인 로직을 짤 때 가장 잘못 짚기 쉬운 지점.</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>카테고리</th><th>값</th><th>의미</th></tr></thead>
+        <tbody>
+          <tr><td>TOP / OUT / DRS</td><td><code>"STR,WAV,NAT"</code></td><td class="wrap-cell">스타일링 추천 태그일 뿐 — 체형별로 별도 상품을 만들지 않음</td></tr>
+          <tr><td>PNT</td><td><code>"-"</code></td><td class="wrap-cell">체형 개념 자체가 없음. 기존 5LT/PLT 바디코드는 중복 곱셈 버그였어서 제거</td></tr>
+          <tr><td>CLR</td><td><code>WRM</code>/<code>COOL</code>/<code>MUT</code></td><td class="wrap-cell"><b>실제 상품 차원</b> — 진짜 다른 색으로 염색된 별개 SKU 배수 축</td></tr>
+          <tr><td>ACC</td><td><code>BAG</code>/<code>BLT</code>/<code>SCF</code>/<code>CAP</code>/<code>PCH</code></td><td class="wrap-cell">카테고리 자체가 아이템 종류 축이라 예외</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:15px; margin: 32px 0 10px;">② SKU 코드 포맷도 카테고리마다 다름</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>카테고리</th><th>product_id 예시</th><th>sku_code 예시</th></tr></thead>
+        <tbody>
+          <tr><td>TOP / PNT / OUT / DRS</td><td><code>NQ-TOP-001</code> (체형코드 없음)</td><td><code>NQ-TOP-001-M-BLK</code></td></tr>
+          <tr><td>CLR</td><td><code>NQ-CLR-WRM-001</code> (톤코드 유지)</td><td><code>NQ-CLR-WRM-001-M-CRM</code></td></tr>
+          <tr><td>ACC</td><td><code>NQ-ACC-BAG-001</code></td><td><code>NQ-ACC-BAG-001-FREE-BLK</code></td></tr>
+          <tr><td>트렌드캡슐</td><td colspan="2"><code>TRD-{카테고리}-{캡슐번호}-{체형/톤}-{일련번호}</code> — 이번 개편 대상 아님, 기존 포맷 유지</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:15px; margin: 32px 0 10px;">③ <code class="mono">safety_stock</code> · <code class="mono">reorder_point</code>는 고정값이 아니라 매일 재계산</h3>
+    <p style="font-size:14px; color:var(--ink-soft); max-width:68ch; margin-bottom:16px;">
+      SKU당 판매속도(velocity) × 인기도 티어 비율 × 리드타임(52일) × 버퍼 계수로 매일 다시 계산됩니다.
+      고정 수치(SKU당 200장 등)로는 매출 목표가 커지는 구간에서 병목이 생겨 이 방식으로 바뀌었습니다.
+    </p>
+    <div class="plate plate-corners" style="padding-top:20px;">
+      <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+      <div style="display:grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items:center;">
+        <div>
+          <svg viewBox="0 0 340 220" role="img" aria-label="안전재고는 기준선의 0.5배, 재발주점은 1.3배, 파레벨은 3.0배로 재발주점을 기준으로 커지는 막대그래프">
+            <g font-family="IBM Plex Mono, monospace" font-size="11">
+              <!-- axis -->
+              <line x1="50" y1="10" x2="50" y2="180" stroke="currentColor" stroke-opacity="0.4"/>
+              <line x1="50" y1="180" x2="320" y2="180" stroke="currentColor" stroke-opacity="0.4"/>
+              <text x="46" y="14" text-anchor="end" fill="var(--ink-faint,#7C8590)">3.5x</text>
+              <line x1="50" y1="14" x2="320" y2="14" stroke="currentColor" stroke-opacity="0.12"/>
+              <text x="46" y="100" text-anchor="end" fill="var(--ink-faint,#7C8590)">1.75x</text>
+              <line x1="50" y1="97" x2="320" y2="97" stroke="currentColor" stroke-opacity="0.12"/>
+              <text x="46" y="180" text-anchor="end" fill="var(--ink-faint,#7C8590)">0x</text>
+
+              <!-- bars: baseline=180, scale 0..3.5x over 166px -->
+              <rect x="90" y="156" width="46" height="24" fill="currentColor" fill-opacity="0.45"/>
+              <text x="113" y="200" text-anchor="middle">0.5x</text>
+              <text x="113" y="213" text-anchor="middle" fill="var(--ink-faint,#7C8590)" font-size="10">safety_stock</text>
+
+              <rect x="160" y="118" width="46" height="62" fill="var(--accent)"/>
+              <text x="183" y="200" text-anchor="middle" fill="var(--accent)">1.3x</text>
+              <text x="183" y="213" text-anchor="middle" fill="var(--ink-faint,#7C8590)" font-size="10">reorder_point</text>
+
+              <rect x="230" y="37" width="46" height="143" fill="var(--amber)"/>
+              <text x="253" y="200" text-anchor="middle" fill="var(--amber)">3.0x</text>
+              <text x="253" y="213" text-anchor="middle" fill="var(--ink-faint,#7C8590)" font-size="10">par_level</text>
+            </g>
+          </svg>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 12.5px; line-height:2.1; color: var(--ink-soft);">
+          <div><span style="color:var(--ink-faint)">velocity</span> = 분기 매출목표 역산</div>
+          <div><span style="color:var(--ink-faint)">reorder_point</span> = velocity × tier_ratio × 52일 × <b style="color:var(--accent)">1.3</b></div>
+          <div><span style="color:var(--ink-faint)">par_level</span> = velocity × tier_ratio × 52일 × <b style="color:var(--amber)">3.0</b></div>
+          <div><span style="color:var(--ink-faint)">safety_stock</span> = reorder_point × <b>0.5</b></div>
+          <div style="margin-top:10px; color:var(--ink-faint); font-family:var(--font-display);">트렌드캡슐 초도물량은 베이직(3.0배)보다 훨씬 적은 <b>1.0배</b> 버퍼 — "소량 정예" 운영</div>
+        </div>
+      </div>
+      <div class="plate-cap"><span>FIG. 3</span><span>동적 재고정책 버퍼 배수 — 2026.08 개정 로직, generate_v5.py에서도 유지</span></div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 32px 0 10px;">④ <code class="mono">INVENTORY</code>는 이제 SKU당 1행이 아니라 SKU×location마다 1행 (v5, 2026-09-11)</h3>
+    <p style="font-size:14px; color:var(--ink-soft); max-width:68ch; margin-bottom:14px;">
+      <code class="mono">INVENTORY</code>가 <code class="mono">(sku_code, location_id)</code> 복합키로 바뀌어서, SKU 하나가 HUB(중앙창고) + 매장별로 각자 다른 재고 행을 갖습니다.
+      팩토리 재발주 판단은 반드시 <code class="mono">location_id="HUB"</code> 행만 봐야 하고, 매장 재고 부족은 재발주가 아니라 HUB→매장 이관(<code class="mono">INVENTORY_LEDGER.movement_type="이관"</code>)으로 해결됩니다.
+    </p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>location_id</th><th>의미</th><th>차감되는 채널</th></tr></thead>
+        <tbody>
+          <tr><td><code>HUB</code></td><td class="wrap-cell">중앙창고 — STORE 테이블엔 없는 가상 위치라 FK로 강제하지 않음</td><td class="wrap-cell">ZIGZAG(온라인), WHOLESALE(홀세일)</td></tr>
+          <tr><td><code>STORE-01~04</code></td><td class="wrap-cell">매장 로컬재고 — 7일치 이하로 떨어지면 HUB에서 14일치 보충</td><td class="wrap-cell">OFFLINE(오프라인)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:15px; margin: 32px 0 10px;">⑤ <code class="mono">WHOLESALE</code> 채널은 한동안 FK 위반 상태였음</h3>
+    <p style="font-size:14px; color:var(--ink-soft); max-width:68ch; margin-bottom:14px;">
+      <code class="mono">add_wholesale.py</code>가 <code class="mono">CHANNEL</code> 테이블에 <code class="mono">WHOLESALE</code> 행 자체가 없는 상태로 주문을 꽂아 넣고 있어서, 2026-09-11 수정 전까지는 FK 체크를 꺼둔 채로 참조 무결성이 깨져 있었습니다. 지금은 두 생성 스크립트 모두 수정되어 3개 채널이 정상적으로 존재합니다.
+    </p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>channel_id</th><th>name</th><th>commission_rate</th><th>settlement_cycle</th></tr></thead>
+        <tbody>
+          <tr><td><code>ZIGZAG</code></td><td>지그재그(직진배송)</td><td>0.15</td><td>월 2회</td></tr>
+          <tr><td><code>OFFLINE</code></td><td>오프라인 쇼룸/팝업</td><td>0.0</td><td>-</td></tr>
+          <tr><td><code>WHOLESALE</code></td><td>홀세일/입점</td><td>0.0</td><td>월 1회</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="scale">
+    <div class="section-label">06 · 카탈로그 규모</div>
+    <h2 class="h">개편 후 상품·SKU 수</h2>
+    <p class="section-desc">체형배수를 걷어낸 만큼 TOP·PNT의 사이즈·컬러 뎁스에 재배분해서, 총 SKU 수는 개편 전(428개)과 거의 같습니다.</p>
+    <div class="stat-grid">
+      <div class="stat-tile"><div class="n">20</div><div class="l">베이직 상품(스타일)</div></div>
+      <div class="stat-tile"><div class="n">418</div><div class="l">베이직 SKU</div></div>
+      <div class="stat-tile"><div class="n">21</div><div class="l">트렌드캡슐 상품</div></div>
+      <div class="stat-tile"><div class="n">102</div><div class="l">트렌드캡슐 SKU</div></div>
+      <div class="stat-tile accent"><div class="n">41</div><div class="l">전체 상품 수</div></div>
+      <div class="stat-tile accent"><div class="n">520</div><div class="l">전체 SKU 수</div></div>
+    </div>
+    <p style="font-size:13px; color:var(--ink-faint); margin-top:14px;">XS~4XL 8단계 사이즈의 실제 배분 비율(4/14/24/24/16/10/5/3%)은 아직 실측 데이터가 없는 잠정 가정치입니다.</p>
+  </section>
+
+  <section id="changelog">
+    <div class="section-label">07 · 변경 이력</div>
+    <h2 class="h">ERD가 실제로 바뀐 이유</h2>
+    <div class="timeline">
+      <div class="timeline-item"><span class="v">v1.0</span><p>최초 13개 엔티티 설계</p></div>
+      <div class="timeline-item"><span class="v">v1.1</span><p><code class="mono">INVENTORY_LEDGER</code> 추가 — 재고 스냅샷만으로는 이동 이력 추적이 안 되는 문제 보완</p></div>
+      <div class="timeline-item"><span class="v">v1.2</span><p><code class="mono">RETURN_REQUEST</code>에 <code class="mono">sku_code</code> FK 추가 — 다중 아이템 주문에서 "어떤 SKU가 반품됐는지" 구분 불가능했던 문제 보완</p></div>
+      <div class="timeline-item"><span class="v">v1.3</span><p><code class="mono">INVENTORY.sku_code</code> 키 타입을 <code class="mono">PK_FK</code>(잘못된 문법) → <code class="mono">PK</code>로 수정 — Mermaid 파싱 에러로 발견</p></div>
+      <div class="timeline-item"><span class="v">v1.4</span><p><code class="mono">PRODUCT.line_type</code>(BASIC/TREND) 추가 — 트렌드 캡슐 라인 도입에 따른 구분 필요</p></div>
+      <div class="timeline-item"><span class="v">v1.5</span><p><code class="mono">PRODUCT.popularity_tier</code>(HERO/STEADY/NICHE) 추가 — 롱테일 판매 가중치 도입</p></div>
+      <div class="timeline-item"><span class="v">v1.6</span><p>엔터티 구조 변경 없음 — 71번 문서에 엔터티별 데이터 품질 체크리스트 추가(데이터 생성 일관성 확보 목적)</p></div>
+      <div class="timeline-item"><span class="v">v1.7</span><p><code class="mono">INVENTORY</code>에 <code class="mono">location_id</code> 추가해 <code class="mono">(sku_code, location_id)</code> 복합키로 변경(HUB 중앙창고 + 매장별 재고 분리 추적), <code class="mono">INVENTORY_LEDGER</code>에도 <code class="mono">location_id</code> 추가하고 <code class="mono">movement_type="이관"</code>을 HUB↔매장 이동 기록에 실사용. <code class="mono">SKU ||--|| INVENTORY</code>(1:1)도 <code class="mono">SKU ||--o{ INVENTORY</code>(1:다)로 카디널리티 수정 — 동시에 여러 매장이 열려있으면 코드가 그중 하나만 선택해 나머지 매장 판매실적이 0이 되던 버그가 계기.</p></div>
+    </div>
+  </section>
+
+  <section id="backlog">
+    <div class="section-label">08 · 확장 백로그</div>
+    <h2 class="h">2차 모델링에서 다룰 것</h2>
+    <p class="section-desc">"판매 트랜잭션"이 아니라 "운영 관리" 성격이라 이번 ERD엔 없음 — 별도 ERD로 분리 권장.</p>
+    <div class="backlog-list">
+      <div class="backlog-row"><div class="name">STAFF / USER</div><div class="why">53. Virtual Team Profiles 기반 내부 사용자</div></div>
+      <div class="backlog-row"><div class="name">TASK / APPROVAL</div><div class="why">54. Task Types &amp; Approval Workflow 기반 업무·승인 흐름</div></div>
+      <div class="backlog-row"><div class="name">CAMPAIGN / PROMOTION</div><div class="why">47. Marketing Campaign Plan 기반 성과 추적 — 44.KPI Definitions "마케팅 ROAS" 미수집 상태 해소용</div></div>
+      <div class="backlog-row"><div class="name">ALERT_LOG</div><div class="why">23. Alert &amp; Trigger Rules 기반 알림 발생 이력</div></div>
+      <div class="backlog-row"><div class="name">SITE_VISIT / CART_EVENT</div><div class="why">방문 세션·장바구니 이벤트 로그 — "CVR(전환율)" 미수집 상태 해소용, 현재 홈 위젯엔 목표치(2~3%)만 표시 중</div></div>
+    </div>
+    <div class="callout pink" style="margin-top:18px;">
+      <b>재구매율은 스키마 문제가 아닙니다.</b> CUSTOMER·ORDERS FK로 고객별 주문 건수를 이미 셀 수 있는 구조라, 신규 엔티티가 필요한 게 아니라 <b>표본이 아닌 전체 Order 데이터(1,243,079건, v5 재생성판)를 조회</b>하면 바로 계산됩니다. 지금 대시보드가 "가정치 30%"인 건 <code class="mono">order_items_sample.csv</code>가 500건짜리 미리보기라서 — 전체 데이터는 <code class="mono">full_export/order_item.csv</code>(샘플 없음, 1,857,132건)로 이미 뽑혀있어 집계 쿼리만 추가하면 해소됩니다.
+    </div>
+  </section>
+
+  <footer>
+    원본 문서 · 30.DATA/31. NQNQ_data Frame/70. Data Model &amp; Architecture/71. Entity Definitions &amp; Data Dictionary.md · 72. Entity Relationship Diagram.md
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<script>(function(){
+var CFG={"palettes":{"light":{"surface":"#f4efe4","text":"#42392e","line":"#8a7f6d","border":"#7a6c52","bg":"#fffdf8"},"dark":{"surface":"#262b34","text":"#f2f3f5","line":"#a8adb8","border":"#9aa4b8","bg":"#1f232b"}}};
+if(typeof mermaid==='undefined')return;
+var pres=Array.prototype.slice.call(document.querySelectorAll('pre.mermaid')).filter(function(p){if(p.hasAttribute('data-claude-mermaid-claimed'))return false;p.setAttribute('data-claude-mermaid-claimed','1');return true;});
+if(!pres.length)return;
+var mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+var root=document.documentElement;
+var items=pres.map(function(pre){
+var mount=document.createElement('div');mount.className='mermaid-diagram';
+return {pre:pre,mount:mount,src:pre.textContent||''};
+});
+var seq=0;
+var renderGen=0;
+var lastKey='';
+function pageBg(fallback){
+var els=[document.body,document.documentElement];
+for(var i=0;i<els.length;i++){
+var c=els[i]&&getComputedStyle(els[i]).backgroundColor;
+if(c&&c!=='transparent'&&c!=='rgba(0, 0, 0, 0)')return c;
+}
+return fallback;
+}
+function render(){
+var theme=root.getAttribute('data-theme');
+var dark=theme==='dark'||(!!(mq&&mq.matches)&&theme!=='light');
+var pal=dark?CFG.palettes.dark:CFG.palettes.light;
+var bg=pageBg(pal.bg);
+var key=(dark?'d':'l')+'|'+bg;
+if(key===lastKey)return;
+lastKey=key;
+var gen=++renderGen;
+var font=getComputedStyle(document.body).fontFamily||'sans-serif';
+var nat={useMaxWidth:false};
+mermaid.initialize({
+startOnLoad:false,securityLevel:'strict',theme:'base',
+flowchart:nat,sequence:nat,er:nat,state:nat,class:nat,pie:nat,
+gantt:nat,journey:nat,timeline:nat,gitGraph:nat,mindmap:nat,xyChart:nat,
+quadrantChart:nat,sankey:nat,c4:nat,requirement:nat,block:nat,
+packet:nat,kanban:nat,architecture:nat,radar:nat,
+themeVariables:{background:bg,mainBkg:pal.surface,primaryColor:pal.surface,
+primaryTextColor:pal.text,lineColor:pal.line,primaryBorderColor:pal.border,
+nodeBorder:pal.border,clusterBorder:pal.border,edgeLabelBackground:bg,
+clusterBkg:'rgba(127,127,127,0.07)',titleColor:pal.text,
+darkMode:dark,rowOdd:bg,rowEven:'rgba(127,127,127,0.07)',
+attributeBackgroundColorOdd:bg,attributeBackgroundColorEven:'rgba(127,127,127,0.07)',
+fontSize:'16px',fontFamily:font},
+themeCSS:'.node rect, .node circle, .node polygon, .node path, .cluster rect { stroke-width: 2px; }'
+});
+items.forEach(function(it){
+var id='claude-mermaid-'+seq++;
+mermaid.render(id,it.src).then(function(r){
+if(gen!==renderGen)return;
+var prev=it.pre.previousElementSibling;
+if(prev&&prev.className==='mermaid-diagram'&&prev!==it.mount)return;
+it.mount.innerHTML=r.svg;
+if(!it.mount.parentNode)it.pre.parentNode.insertBefore(it.mount,it.pre);
+it.pre.style.display='none';
+},function(){
+var scratch=document.getElementById(id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+scratch=document.getElementById('d'+id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+if(gen!==renderGen)return;
+if(it.mount.parentNode)it.mount.parentNode.removeChild(it.mount);
+it.pre.style.display='';
+});
+});
+}
+render();
+if(mq&&mq.addEventListener)mq.addEventListener('change',render);
+if(typeof MutationObserver!=='undefined')new MutationObserver(render).observe(root,{attributes:true,attributeFilter:['data-theme']});
+})();</script>
+
+</body>
+</html>
