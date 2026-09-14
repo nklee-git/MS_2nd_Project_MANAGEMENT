@@ -1,0 +1,51 @@
+> 관련 문서: [[1-kickoff-brief]] · [[23-cost-plan]]
+> **용도**: 팀원 확정 직후, 첫 회의(Week 0) 전에 다같이 끝내둘 준비 작업. 여기 있는 걸 미리 해두면 Week 0 회의를 "설치 삽질"이 아니라 "기능명세 논의"로 바로 시작할 수 있음.
+
+## 🛠️ 공통 도구 설치 (전원)
+- [ ] Obsidian 설치 + vault(GitHub repo) clone 후 열기 #todo/onboarding
+- [ ] Dataview 플러그인 설치·활성화 (설정 → Community plugins → 검색 → 설치 → 토글 ON → **Obsidian 완전 재시작**) — 이거 안 하면 [[1-todo-board]]나 나경 개인 TODO 보드 같은 Dataview 쿼리 문서가 안 보임 #todo/onboarding
+- [ ] Git 설치 확인(`git --version`) + GitHub 계정 준비 #todo/onboarding
+- [ ] GitHub repo 초대 수락 + clone (공유 방식은 [[1-kickoff-brief]] 참고) #todo/onboarding
+
+## 🔑 계정/권한 (나경이 초대 → 각자 수락)
+
+> **2026-09-01 확정**: 테넌트 공유 기본(Default) 환경이 아니라, 나경 개인 **Dataverse Developer 환경("2nd_5team")**을 씀 — 공유 기본 환경은 일반 계정에 테이블 생성 권한이 없어서 이 방식으로 우회함(상세: [[04.MS-DataSchool/20.PROJECT/22.MS_2nd_Project/00-wbs/01-docs/1-execution-plan]] 3-1절). 최민·현제 **둘 다 초대 완료** (2026-09-12 확인). **박형준(2026-09-11 합류)은 2026-09-14 초대 예정** — 우선순위 아님.
+
+### 나경이 할 일 (팀원 1명당 반복)
+- [ ] [Power Platform 관리 센터](https://admin.powerplatform.microsoft.com) 접속
+- [ ] 왼쪽 "환경" → **"2nd_5team"** 선택
+- [ ] "사용자 + 권한" 섹션 → 사용자 추가
+- [ ] 팀원의 **학교 M365 계정 이메일**로 검색해서 추가 (개인 지메일 아님)
+- [ ] 역할(Security Role)은 지금 단계에서 전원 **"시스템 관리자(System Administrator)"**로 지정 — 데모 직전에 `Reorder Approver`/`Viewer`로 재조정 예정
+- [x] 최민 · 현제 2명 다 됐는지 [[1-execution-plan]] 3-1절에 체크 ✅ 2026-09-12
+
+### 팀원이 할 일 (초대받은 뒤)
+- [ ] 본인 학교 M365 계정으로 [make.powerapps.com](https://make.powerapps.com) 로그인 #todo/onboarding
+- [ ] 우측 상단 환경 이름 클릭 → 드롭다운에서 **"2nd_5team"** 선택 (안 보이면 몇 분 기다리거나 재로그인) #todo/onboarding
+- [ ] 왼쪽 "테이블" 메뉴에서 Account·Contact 같은 기본 테이블 목록이 보이면 접속 성공 #todo/onboarding
+- [ ] **주의**: 계정/비밀번호를 공유받는 게 아니라 각자 본인 계정으로 접속하는 방식임 — 로그인 정보 요청받으면 잘못된 것
+
+### 그 외
+- [ ] Azure 구독/리소스 그룹 접근 권한 확인 (팀 공유 구독 또는 Azure for Students) #todo/onboarding
+- [x] Teams 채널 초대 #todo/onboarding
+
+## 📖 읽고 올 것 (순서대로)
+- [ ] 저장소 루트 `README.md` — 프로젝트가 뭔지 3줄 요약
+- [ ] [[1-kickoff-brief]] — 방향성 전체
+- [ ] [[22-feature-spec]] — 특히 자기 롤의 TBD 섹션
+- [ ] [[5-dataverse-guide]] — Dataverse 처음이면 필독 (2026-09-10 추가)
+- [ ] [[1-todo-board]] — 지금 뭐가 진행 중인지
+
+## 🤖 문서가 너무 많아서 부담되면 (선택)
+지금 이 볼트만 15개 이상 문서라, "읽고 올 것" 4개 말고 나머지는 언제 다 보나 싶을 수 있음. 나경은 Claude Code(또는 파일 접근 가능한 Claude)를 이렇게 쓰고 있음 — 같은 방식 써도 됨.
+
+- **방법**: clone 받은 이 vault 폴더를 Claude Code로 열고, 그냥 평범한 말로 물어보면 됨
+  - "10-planning 폴더 문서들 요약해줘"
+  - "내 롤(예: ML) 관련해서 TBD로 남은 게 뭐가 있는지 다 찾아줘"
+  - "이 문서랑 저 문서 내용이 서로 안 맞는 부분 있는지 확인해줘"
+- **왜 쓸만한가**: 사람이 15개 문서를 눈으로 훑으면 놓치는 걸 Claude는 한 번에 다 열어서 비교함. 실제로 이번 프로젝트에서 [[21-system-model]]이 피벗 전 구버전 내용(NQNQ를 실제 제품처럼 서술)을 그대로 갖고 있어서 나머지 문서랑 모순되던 걸 이렇게 찾아서 고쳤음
+- **주의**: 파일을 직접 고치거나 git 커밋/푸시하는 것 같은 되돌리기 번거로운 작업은 하기 전에 먼저 물어보게 하는 게 안전함 — "이렇게 고치면 될까?"라고 반드시 확인받고 진행
+
+## 💡 각자 준비해올 것
+- [ ] 자기 롤의 TBD 항목에 대한 초안 의견 최소 1개 (완벽하지 않아도 됨 — Week 0는 논의의 시작점이지 발표 자리가 아님) #todo/onboarding
+- [ ] 로컬 개발환경(Python/Node 등)은 롤별로 다르므로 Week 0에서 같이 정리 — 미리 안 깔아도 됨

@@ -1,0 +1,12 @@
+# Obsidian 로컬 설정 (개인 UI 상태, 공유 불필요)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Office 임시 잠금 파일
+~$*
+
+# OS / 캐시
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
