@@ -232,6 +232,22 @@
 - **RETURN_REQUEST**: `return_id` unique/not null · `order_id`/`sku_code` 참조 무결성 · `reason_code` ∈ {R01~R05}
 - **STORE**: `store_id` unique/not null · `close_date`는 팝업(`type`)만 not null 허용
 
+## 📌 2026-09-15 — SQL Server(nqnqdb) 적재 검증: `inventory` 테이블 오류 발견/수정
+
+Azure SQL Database(`nqnqdb`)에 적재된 데이터가 정상인지 위 품질 체크리스트 기준으로 검증하는 과정에서, `INVENTORY` 엔터티가 실제 SQL Server에는 **두 개의 물리 테이블로 나뉘어 있는 것**을 확인:
+- `inventory_by_location` — SKU×위치별 재고(위 스키마의 v5 정식 구조), 2092행. `nqnq.db` 원본과 완전히 일치(검증 완료).
+- `inventory` — SKU 전체 합계 520행. **원본 스키마엔 이 형태의 테이블이 없음.**
+
+**발견한 문제**: `inventory`의 `available_qty`가 SKU별 전체 합계가 아니라 **HUB 위치의 재고 수량과 정확히 일치** — 즉 매장(STORE-01~04) 재고가 통째로 누락된 채 적재돼 있었음(전 SKU 350건 대조 시 항상 HUB만큼만 반영, 매장분 1~5% 과소).
+
+**원인**: `archive/export_scripts/export_for_dataverse.py` · `export_full_for_dataverse.py`(2026-09-11, v5 이전 스키마 기준으로 작성된 옛 Dataverse 적재용 스크립트, [[04.MS-DataSchool/20.PROJECT/22.MS_2nd_Project/40-pipeline/41-readme|41-readme]] 9/11 항목 참고)가 `location_id` 없이 `SELECT sku_code, available_qty, ... FROM inventory`로 뽑던 코드 그대로, v5로 스키마가 (sku_code, location_id) 복합키로 바뀐 뒤에도 안 고쳐진 채 실행됨 — SKU당 여러 행 중 HUB 행만 남는 형태로 적재됨. `export_full_v5.py`/`export_csv_preview.py`(현재 공식 스크립트)는 둘 다 `location_id` 포함해서 정상 export하므로 이 문제와 무관.
+
+**조치**: `inventory_by_location`을 `sku_code` 기준으로 재집계해서 `inventory`를 재적재(TRUNCATE 후 INSERT) → 재검증 결과 350건 전부 0건(불일치 없음)으로 확인 완료.
+
+**유사 버그 잠재 위치 (아직 미발현, 조치 보류)**: 대시보드 쪽 두 곳(`70.FRONT/src/data/mockData.js:70`의 `inventoryBySku` Map, `70.FRONT/dashboard/FashionAiDashboard/Services/SampleDataService.cs:85`의 `ToDictionary`)도 `inventory_snapshot.csv`를 SKU당 1행으로 가정하고 읽는 동일 패턴 코드. 지금은 두 대시보드 다 v4 시절 구버전 CSV(location_id 없음)를 쓰고 있어서 안 터진 상태지만, 최신 `csv_preview/inventory_snapshot.csv`(v5, 2092행)로 갱신되는 순간 React는 조용히 틀린 값을 보여주고 C#은 중복 키 예외로 즉시 죽음 — CSV 갱신 전에 담당자(최민/박형준)에게 공유 필요.
+
+**검증 쿼리·결과 아카이빙**: 코드 저장소(`MS_2nd_Project_CODE`, 볼트 밖) `30.DATA/32. nqnq_data/sql_checks/`에 01~05번 검증 쿼리(건수/PK유니크/FK참조무결성/값도메인/비즈니스규칙) + 03-1(위치정합성 진단)·03-2(재적재) 쿼리, `results/`에 재적재 전(`2026-09-15_inventory_mismatch_BEFORE.csv`, 350건)·후(`2026-09-15_inventory_mismatch_AFTER.csv`, 0건) 결과 저장.
+
 ## 🔜 다음 확장 대상 (2차 모델링 백로그)
 - `STAFF` / `USER` — [[53-virtual-team-profiles]] 기반 내부 사용자
 - `TASK` / `APPROVAL` — [[54-approval-workflow]] 기반 업무/승인 흐름
