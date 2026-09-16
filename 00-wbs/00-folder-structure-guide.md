@@ -32,8 +32,8 @@
 | 30  | `30-data`          | 가상 브랜드(NQNQ) 기획 + 데이터 생성 설명 | 전원       | NQNQ는 실제 제품이 아니라 PoC 검증용 가상 브랜드. 그 기획 문서 전체와, 데이터 생성 스크립트에 대한 설명(스크립트 코드 자체는 Team 저장소에 있음) |
 | 40  | `40-pipeline`      | 데이터·인프라·백엔드 API             | 최민       | Blob/Data Factory 파이프라인, Dataverse 인프라, 신규 C# API 서버(`FashionAI.Api`) 작업 지시서               |
 | 50  | `50-databricks`    | ML·모델링                      | 임현제      | Databricks 노트북, risk_score 계산 로직 관련 참고 문서                                                  |
-| 60  | `60-rag`           | RAG·자동화                     | 나경·박형준  | Power Automate 트리거 플로우, Teams Adaptive Card 관련 참고 문서 (이름은 RAG지만 실제 작업의 대부분은 승인 워크플로우 자동화). 박형준 2026-09-16 합류 |
-| 70  | `70-frontend`      | 대시보드·프론트                    | 나경·박형준   | ASP.NET Core MVC/Razor Pages 대시보드 스펙과 진행 상황                                                |
+| 60  | `60-rag`           | RAG·자동화                     | 나경  | Power Automate 트리거 플로우, Teams Adaptive Card 관련 참고 문서 (이름은 RAG지만 실제 작업의 대부분은 승인 워크플로우 자동화). 박형준 2026-09-16 팀 이탈로 나경 단독 복귀 |
+| 70  | `70-frontend`      | 대시보드·프론트                    | 나경   | ASP.NET Core MVC/Razor Pages 대시보드 스펙과 진행 상황(2026-09-16 박형준 팀 이탈로 나경 단독 복귀)                                                |
 | 80  | `80-presentation`  | 최종 발표                       | 나경       | 9/29 발표 슬라이드, 시연 스크립트, 데모 시나리오                                                             |
 | 90  | `90-startup-grant` | 모두의창업 2기 지원                 | 나경       | 학교 프로젝트와 별개 트랙(제출 마감 9/17). 같은 아이디어를 사업계획서 형태로 확장                                          |
 

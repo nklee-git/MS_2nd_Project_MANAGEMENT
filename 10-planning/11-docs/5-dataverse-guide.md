@@ -88,7 +88,7 @@ risk_score 산출 근거(`stockout_urgency`/`popularity_weight`)는 필드로 �
 ## 5. 지금 당장 누가 뭘 해야 하는가
 
 - **최민**: `ReorderRecommendation`+SKU마스터 테이블 실제 생성 + Security Role 2종 세팅(Week 1 최우선, [[42-work-order-choimin]] 참고) + **C# Web API 서버(`FashionAI.Api`) 신규 구축**(2026-09-14 확정, Azure AD 앱 등록·MSAL 인증 포함)
-- **나경·박형준**: API 서버가 주는 JSON만 받아 대시보드 렌더링(Dataverse 직접 연동 없음)
+- **나경**: API 서버가 주는 JSON만 받아 대시보드 렌더링(Dataverse 직접 연동 없음)
 - **임현제**: ML 예측 결과가 위 필드 형태로 나오도록 산출물 정리 — Databricks가 직접 Dataverse에 적재(API 서버를 거치지 않는 별도 경로). `auto_decidable` 플래그 계산도 포함(스트레치, [[25-execution-design]] 2-5절)
 
 ## 6. 더 알아보고 싶으면

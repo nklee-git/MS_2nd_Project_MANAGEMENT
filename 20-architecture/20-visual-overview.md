@@ -76,7 +76,7 @@ erDiagram
   STORE ||--o{ ORDERS : optional_source
 ```
 
-## 4. 팀 조직 & 역할 (2026-09-14 확정, 원본: [[21-system-model]] 롤별 담당표)
+## 4. 팀 조직 & 역할 (2026-09-16 갱신 — 박형준 팀 이탈로 3인 체제 복귀, 원본: [[21-system-model]] 롤별 담당표)
 ```mermaid
 flowchart TB
     lead["최민<br/>🏆 테크리드(2026-09-14 확정)<br/>이견조율 최종결정권만, 책임은 팀 전체 분담"]
@@ -88,14 +88,13 @@ flowchart TB
     pm["나경<br/>PM/TPM"] --> rag["RAG·자동화<br/>Power Automate<br/>Teams Adaptive Card"]
     pm --> coord["전체 조율<br/>크로스커팅 계약 관리<br/>체크포인트 운영"]
 
-    fe["박형준(9/11 합류)<br/>프론트"] --> front["대시보드<br/>Razor Pages 2뷰"]
-    pm -.공동.- front
+    pm --> front["대시보드<br/>Razor Pages 2뷰"]
 
     classDef leadcls fill:#fbeedd,stroke:#b4690a,color:#1b1c2b;
     classDef personcls fill:#e3edf5,stroke:#2f6690,color:#1b1c2b;
     classDef workcls fill:#f0eff8,stroke:#6b6c85,color:#1b1c2b;
     class lead leadcls
-    class ml,pm,fe personcls
+    class ml,pm personcls
     class pipeline,api,mlwork,rag,coord,front workcls
 ```
 

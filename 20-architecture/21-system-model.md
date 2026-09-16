@@ -78,7 +78,7 @@ flowchart LR
 | 백엔드 API(신규) | C# Web API 서버(`FashionAI.Api`) | 최민 |
 | RAG·자동화 | Power Automate + Teams Adaptive Card | 나경 |
 | ML·모델링 | Databricks 처리, risk_score, 클러스터 관리 | 임현제 |
-| 대시보드·프론트 | Razor Pages 2뷰 | 나경·박형준(9/11 합류) |
+| 대시보드·프론트 | Razor Pages 2뷰 | 나경 (형준 9/11~9/16 공동 담당, 팀 이탈로 원복) |
 | 전체 조율 | 크로스커팅 계약·체크포인트·발표자료 | 나경 |
 
 ---

@@ -244,7 +244,7 @@ Azure SQL Database(`nqnqdb`)에 적재된 데이터가 정상인지 위 품질 �
 
 **조치**: `inventory_by_location`을 `sku_code` 기준으로 재집계해서 `inventory`를 재적재(TRUNCATE 후 INSERT) → 재검증 결과 350건 전부 0건(불일치 없음)으로 확인 완료.
 
-**유사 버그 잠재 위치 (아직 미발현, 조치 보류)**: 대시보드 쪽 두 곳(`70.FRONT/src/data/mockData.js:70`의 `inventoryBySku` Map, `70.FRONT/dashboard/FashionAiDashboard/Services/SampleDataService.cs:85`의 `ToDictionary`)도 `inventory_snapshot.csv`를 SKU당 1행으로 가정하고 읽는 동일 패턴 코드. 지금은 두 대시보드 다 v4 시절 구버전 CSV(location_id 없음)를 쓰고 있어서 안 터진 상태지만, 최신 `csv_preview/inventory_snapshot.csv`(v5, 2092행)로 갱신되는 순간 React는 조용히 틀린 값을 보여주고 C#은 중복 키 예외로 즉시 죽음 — CSV 갱신 전에 담당자(최민/박형준)에게 공유 필요.
+**유사 버그 잠재 위치 (아직 미발현, 조치 보류)**: 대시보드 쪽 두 곳(`70.FRONT/src/data/mockData.js:70`의 `inventoryBySku` Map, `70.FRONT/dashboard/FashionAiDashboard/Services/SampleDataService.cs:85`의 `ToDictionary`)도 `inventory_snapshot.csv`를 SKU당 1행으로 가정하고 읽는 동일 패턴 코드. 지금은 두 대시보드 다 v4 시절 구버전 CSV(location_id 없음)를 쓰고 있어서 안 터진 상태지만, 최신 `csv_preview/inventory_snapshot.csv`(v5, 2092행)로 갱신되는 순간 React는 조용히 틀린 값을 보여주고 C#은 중복 키 예외로 즉시 죽음 — CSV 갱신 전에 담당자(최민)에게 공유 필요.
 
 **검증 쿼리·결과 아카이빙**: 코드 저장소(`MS_2nd_Project_CODE`, 볼트 밖) `30.DATA/32. nqnq_data/sql_checks/`에 01~05번 검증 쿼리(건수/PK유니크/FK참조무결성/값도메인/비즈니스규칙) + 03-1(위치정합성 진단)·03-2(재적재) 쿼리, `results/`에 재적재 전(`2026-09-15_inventory_mismatch_BEFORE.csv`, 350건)·후(`2026-09-15_inventory_mismatch_AFTER.csv`, 0건) 결과 저장.
 
