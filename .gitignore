@@ -10,3 +10,6 @@
 Thumbs.db
 __pycache__/
 *.pyc
+
+# 아키텍처 다이어그램용 아이콘 원본(Microsoft 공식 팩 전체, 714개) — 로컬 참고용만, 저장소 비대화 방지
+20-architecture/icons/
