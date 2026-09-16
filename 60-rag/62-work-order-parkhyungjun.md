@@ -26,7 +26,7 @@
 ### 2. 할 일 — 순서대로
 
 **Step 1. Adaptive Cards Designer에서 카드 템플릿 만들기**
-- 접속: https://adaptivecards.io/designer/ (Microsoft 공식 디자이너, 로그인 불필요, 브라우저에서 바로 JSON 편집·미리보기 가능)
+- 접속: https://adaptivecards.microsoft.com (Microsoft 공식 디자이너, 로그인 불필요, 브라우저에서 바로 JSON 편집·미리보기 가능. 옛 주소 `adaptivecards.io/designer`는 도메인 이전으로 404 남)
 - 카드에 넣을 필드는 `ReorderRecommendation` 테이블의 7개 필드에서 아래만 그대로 매핑([[22-feature-spec]] 확정 스키마, **새 필드 만들지 말 것**):
   - `sku_code` (SKU 코드)
   - `predicted_demand` (예측수요)
