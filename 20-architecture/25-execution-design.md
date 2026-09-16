@@ -38,7 +38,7 @@ ML(임현제)·RAG(나경)·프론트(나경·박형준)·백엔드(최민, 신�
 
 ## 2. RAG·자동화 — Power Automate + Teams (담당: 나경·박형준, 2026-09-16부터 — [[00-wbs/03-meetings/2026-09-15-mentoring-followup|형준 데이터 적재 마무리]] 후 재배정)
 
-> **역할 분담**: 박형준은 2-2절 Adaptive Card JSON 템플릿 제작부터 착수(상세: [[60-rag/62-work-order-parkhyungjun]]). 나경은 Cloud Flow 본체(트리거·Wait for a response·Dataverse 업데이트)와 2-5·2-6절 스트레치 로직을 맡고, 형준이 익숙해지면 순차적으로 이관한다.
+> **역할 분담 (2026-09-16 갱신)**: 박형준이 2-2~2-4절 코어 실행(Adaptive Card 템플릿 → Power Automate Cloud Flow 본체 → 테스트)과 2-5·2-6절 스트레치까지 **실행 전체**를 이어받는다(상세: [[60-rag/62-work-order-parkhyungjun]]). 나경은 RAG 총괄(크로스커팅 계약 관리·설계 검수·체크포인트 운영)로 물러나고, 직접 구현은 하지 않는다 — 최민 8개 항목 확장([[42-work-order-choimin]] 6절)·임현제 ML 마무리로 팀 전체 작업량이 재조정되면서, 나경의 기획서·발표자료·WBS 총괄 부담을 줄이기 위한 결정.
 
 ### 2-1. 요구사항분석
 > 실제 "RAG 챗봇"은 이번 스코프가 아니다([[21-system-model]] 서론에 이미 확정) — "RAG·자동화" 롤의 실제 작업은 **Power Automate 승인 워크플로우**다. 이름에 낚이지 않는다.
@@ -83,7 +83,7 @@ ML(임현제)·RAG(나경)·프론트(나경·박형준)·백엔드(최민, 신�
 **구현**
 - **임현제님 담당**: 자동승인 가능 여부(`auto_decidable`) 판정 로직 — risk_score 계산과 같은 근거 데이터를 쓰므로 1절 ML 노트북의 `04_risk_score` 단계에서 같이 계산해 Dataverse에 넣는다(Power Automate는 이 값을 Condition으로만 읽음, 복잡한 로직을 로우코드로 안 짜도 됨)
 - **Dataverse 스키마 추가 2개**: `auto_decidable`(Boolean, ML이 계산) / `auto_decided`(Boolean, Power Automate가 기록) — 최민님 스키마 확장 목록에 추가 필요
-- **나경 담당**: Power Automate 타임아웃 분기 + 에스컬레이션 재알림 구현
+- **형준 담당** (2026-09-16부터, 이전 나경 담당): Power Automate 타임아웃 분기 + 에스컬레이션 재알림 구현
 
 **테스트**
 - 테스트 레코드로 응답 없이 SLA 경과 시뮬레이션 — 저위험/고위험 각각 결과 확인
@@ -106,7 +106,7 @@ ML(임현제)·RAG(나경)·프론트(나경·박형준)·백엔드(최민, 신�
 - 긴급임계값은 2-5절 `auto_decidable`(저위험=자동승인 후보)과 반대 개념 — 고위험 쪽 별도 임계값으로 정의(예: risk_score 상위 20%, 정확한 값은 9/14 회의에서 확정)
 
 **구현**
-- 나경 담당 — 기존 2절 Power Automate 플로우에 Condition 분기 하나 추가. 새 커넥터·새 서비스 불필요
+- 형준 담당 (2026-09-16부터, 이전 나경 담당) — 기존 2절 Power Automate 플로우에 Condition 분기 하나 추가. 새 커넥터·새 서비스 불필요
 
 **테스트**
 - 고위험 테스트 레코드 → Urgent 알림이 실제로 모바일에 반복 도달하는지 확인
