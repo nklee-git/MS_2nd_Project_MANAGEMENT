@@ -1,0 +1,184 @@
+<title>SKU 데모 목업</title>
+<style>
+  :root{
+    --pink:#F33283;
+    --pink-punchy:#FF80B4;
+    --pink-pastel:#FFADD7;
+    --white:#FFFFFF;
+    --offwhite:#F9F9F9;
+    --black:#000000;
+    --ink:#000000;
+    --muted:rgba(0,0,0,0.55);
+    --border:rgba(0,0,0,0.1);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --offwhite:#17161A;
+      --white:#221F26;
+      --ink:#FFFFFF;
+      --muted:rgba(255,255,255,0.65);
+      --border:rgba(255,255,255,0.14);
+    }
+  }
+  :root[data-theme="dark"]{
+    --offwhite:#17161A;
+    --white:#221F26;
+    --ink:#FFFFFF;
+    --muted:rgba(255,255,255,0.65);
+    --border:rgba(255,255,255,0.14);
+  }
+  body{
+    margin:0;
+    background:var(--offwhite);
+    color:var(--ink);
+    font-family:"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    padding-inline:16px;
+    padding-block:32px;
+    display:flex;
+    justify-content:center;
+  }
+  main{
+    width:100%;
+    max-width:420px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+  .eyebrow{
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.08em;
+    color:var(--pink);
+    text-transform:uppercase;
+  }
+  h1{
+    margin:0;
+    font-size:22px;
+    font-weight:800;
+    text-wrap:balance;
+  }
+  .card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:16px;
+    box-shadow:0 1px 2px rgba(0,0,0,0.04);
+  }
+  .card img{
+    display:block;
+    width:100%;
+    max-width:100%;
+    border-radius:12px;
+  }
+  .meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-top:12px;
+    gap:12px;
+  }
+  .sku{
+    font-weight:700;
+    font-size:15px;
+    font-variant-numeric:tabular-nums;
+  }
+  .tag{
+    font-size:12px;
+    color:var(--muted);
+  }
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .field label{
+    font-size:12px;
+    color:var(--muted);
+  }
+  .url-box{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    background:var(--offwhite);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 12px;
+  }
+  .url-box code{
+    flex:1;
+    font-size:12.5px;
+    word-break:break-all;
+    color:var(--ink);
+  }
+  button{
+    all:unset;
+    cursor:pointer;
+    background:var(--pink);
+    color:#fff;
+    font-size:12px;
+    font-weight:700;
+    padding:7px 12px;
+    border-radius:8px;
+    white-space:nowrap;
+  }
+  button:active{ background:var(--pink-punchy); }
+  button:focus-visible{ outline:2px solid var(--pink); outline-offset:2px; }
+  .toast{
+    font-size:12px;
+    color:var(--pink);
+    height:14px;
+  }
+  p.note{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.6;
+    margin:0;
+  }
+</style>
+
+<main>
+  <div>
+    <div class="eyebrow">RAG · Adaptive Card 목업</div>
+    <h1>데모용 SKU 이미지</h1>
+  </div>
+
+  <div class="card">
+    <img src="dress-photo.jpg" alt="NQ-DRS-001-M-BLK 데모 목업 — 블랙 드레스 제품 사진(팀 확보 이미지)" />
+    <div class="meta">
+      <span class="sku">NQ-DRS-001-M-BLK</span>
+      <span class="tag">데모용 · SKU마스터 미연동</span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Adaptive Card Image.url에 붙여넣을 주소</label>
+    <div class="url-box">
+      <code id="imgUrl">이 페이지 발행 후 표시됩니다</code>
+      <button id="copyBtn" type="button">복사</button>
+    </div>
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <p class="note">
+    지금은 이 URL을 카드에 하드코딩만 한 상태 — SKU 테이블에 이미지 필드가 없어서 실제
+    데이터 연동은 아직 안 됨. 확장할지는 팀 논의 후 결정.
+  </p>
+</main>
+
+<script>
+  (function(){
+    var el = document.getElementById('imgUrl');
+    var url = new URL('dress-photo.jpg', location.href).toString();
+    el.textContent = url;
+    document.getElementById('copyBtn').addEventListener('click', function(){
+      var toast = document.getElementById('toast');
+      try{
+        navigator.clipboard.writeText(url);
+        toast.textContent = '복사됨';
+      }catch(e){
+        toast.textContent = '수동으로 선택해 복사해주세요';
+      }
+      setTimeout(function(){ toast.textContent=''; }, 1500);
+    });
+  })();
+</script>

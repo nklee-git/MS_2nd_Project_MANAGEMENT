@@ -1,0 +1,42 @@
+<svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="NQNQ 데모 SKU 목업 이미지 — 블랙 A라인 드레스">
+  <defs>
+    <clipPath id="frame"><rect x="0" y="0" width="400" height="500" rx="24"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect x="0" y="0" width="400" height="500" fill="#F9F9F9"/>
+    <circle cx="200" cy="230" r="150" fill="#FFADD7" opacity="0.55"/>
+
+    <!-- hanger -->
+    <g stroke="#000000" stroke-width="4" fill="none" stroke-linecap="round">
+      <path d="M200 92 v18"/>
+      <circle cx="200" cy="86" r="7"/>
+      <path d="M140 132 L200 108 L260 132"/>
+    </g>
+
+    <!-- dress silhouette -->
+    <path d="M158 128
+             L146 168
+             L118 300
+             Q112 360 132 404
+             Q200 428 268 404
+             Q288 360 282 300
+             L254 168
+             L242 128
+             Q200 148 158 128 Z"
+          fill="#000000"/>
+
+    <!-- neckline + hem trim -->
+    <path d="M162 130 Q200 152 238 130" fill="none" stroke="#F33283" stroke-width="6" stroke-linecap="round"/>
+    <path d="M132 404 Q200 428 268 404" fill="none" stroke="#F33283" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- waist seam -->
+    <path d="M148 266 Q200 280 252 266" fill="none" stroke="#FF80B4" stroke-width="3" opacity="0.8"/>
+
+    <!-- demo badge -->
+    <g transform="translate(46,40) rotate(-8)">
+      <rect x="0" y="0" width="118" height="34" rx="17" fill="#F33283"/>
+      <text x="59" y="23" text-anchor="middle" font-family="Segoe UI, Pretendard, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF">DEMO MOCKUP</text>
+    </g>
+  </g>
+  <rect x="1.5" y="1.5" width="397" height="497" rx="22.5" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="3"/>
+</svg>
