@@ -1,5 +1,5 @@
-> 대상: 박형준님 (2026-09-16부터 RAG·자동화 롤 신규 합류 — 데이터 적재(customer·factory) 마무리 후 [[00-wbs/03-meetings/2026-09-15-mentoring-followup]] 5절 워크플로우 재배정에 따름)
-> 참고 문서: [[25-execution-design]] 2절 · [[22-feature-spec]] 1-3절 · [[21-system-model]] 부록 A · [[72-dashboard-spec]] 7절 · [[61-readme]]
+> 대상: 박형준님 (2026-09-16부터 RAG·자동화 + 대시보드·프론트 **실행 전체** 이관 — 데이터 적재(customer·factory) 마무리 후 [[00-wbs/03-meetings/2026-09-15-mentoring-followup]] 5절 워크플로우 재배정에 따름. 나경은 이 시점부터 발표자료 전담, 직접 구현 안 함)
+> 참고 문서: [[25-execution-design]] 2·3절 · [[22-feature-spec]] 1-3절 · [[21-system-model]] 부록 A · [[72-dashboard-spec]] · [[42-work-order-choimin]] 7절 · [[61-readme]]
 
 ## 서론
 
@@ -51,6 +51,15 @@
 
 **Step 5. (9/23 체크포인트 통과 후에만) 2-5·2-6절 스트레치**
 - 담당자 부재 시 자동 의사결정(SLA 타임아웃)과 위험 알람 Urgent 우선순위 — 상세 설계는 [[25-execution-design]] 2-5·2-6절에 이미 확정돼 있음, 그대로 따라 구현하면 된다. **지금은 착수하지 않는다** — 코어(Step 1~4)가 9/23 이전에 안 끝나면 이 스트레치는 시작도 안 하는 게 원칙(순서를 바꾸면 코어도 못 끝냄)
+
+### 2-1. (2026-09-16 추가 할당) 대시보드 마무리 + Data Factory 증빙
+
+RAG 실행 이관과 같은 날, 대시보드·프론트 나머지 실행([[2-schedule]] 대시보드·프론트 표)과 Data Factory 관련 잡무도 형준님한테 넘어왔다. 나경은 이제 발표자료(PPT)에 집중하고 직접 구현은 하지 않는다. 우선순위는 **RAG 코어(Step 1~4) 먼저, 그다음 아래 순서**:
+
+1. **최민님 `FashionAI.Api` 연동** — 기존에 CSV 기반으로 붙여둔 대시보드 데이터소스(`SampleDataService`)를 `ReorderApiClient`로 교체(이미 인터페이스 분리해뒀다면 교체만, [[25-execution-design]] 3-3절 2차 단계). 9/23 체크포인트 전에 최민님 API가 준비되는 대로 진행
+2. **예측대조 뷰 오차율 시각화** — 9월 held-out 대비 오차율(MAPE)을 임현제님이 계산해서 넘겨주면, 그 수치를 예측대조 뷰 차트에 반영(레이아웃은 [[72-dashboard-spec]] 그대로, 새로 디자인하지 않음)
+3. **E2E 테스트 + 최종 배포** — 예측→Dataverse→Teams 승인→API→대시보드까지 전체 흐름 한 번 통과 확인, Azure App Service 배포
+4. **Data Factory 증빙용 최소 파이프라인**(급하지 않음, 여유 있을 때) — [[42-work-order-choimin]] 7절 참고. 실제 오케스트레이션 로직은 필요 없고, Databricks 잡을 트리거하는 파이프라인 하나만 만들어서 "커리큘럼 명칭(Data Factory+Databricks 프로젝트)에 맞게 썼다"는 증빙만 남기면 된다
 
 ### 3. 하지 말아야 할 것 (판단 기준)
 
