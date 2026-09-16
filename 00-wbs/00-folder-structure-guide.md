@@ -19,7 +19,7 @@
 - **예외 1 (허브 파일)**: 폴더 하나가 폴더 여러 개를 담고 있을 때, 그 폴더 전체를 요약하는 "허브" 문서 하나는 그 폴더의 **바로 그 번호**(자리수 이어받지 않고 그대로)로 폴더 안에 같이 둘 수 있다.
   예) `20-architecture` 안의 `20-visual-overview.md`, `30-data` 안의 `30-data-overview.md`, 그리고 이 문서(`00-wbs` 안의 `00-folder-structure-guide.md`)가 이 예외.
 - **예외 2 (날짜 파일명)**: 날짜 자체가 중요한 정보인 파일(회의록, 일일업무일지)은 우선순위 번호 대신 **`YYYY-MM-DD-내용.md`** 형식을 쓴다. 순서가 아니라 "언제"가 핵심이기 때문.
-- **예외 3 (파일이 1개뿐인 폴더)**: `50-databricks`, `60-rag`는 안에 파일이 `readme.md` 하나뿐이라 번호를 안 붙였다 — 여러 파일이 생기면 그때 `51-, 52-` 식으로 번호를 매길 것.
+- **예외 3 (파일이 1개뿐인 폴더)**: `50-databricks`는 안에 파일이 `readme.md` 하나뿐이라 번호를 안 붙였다 — 여러 파일이 생기면 그때 `51-, 52-` 식으로 번호를 매길 것. `60-rag`는 2026-09-16에 두 번째 파일(작업지시서)이 생겨 `61-readme`/`62-work-order-parkhyungjun`으로 넘버링 전환.
 - **코드 저장소(`MS_2nd_Project_CODE`, 로컬 폴더명은 아직 `MS-DataSchool-Code/22.MS_2nd_Project_Team`)는 이 규칙 밖**: 실제 코드·데이터가 도는 곳이라 아직 옛 폴더명(`30.DATA/32. nqnq_data` 등)을 쓴다. 볼트 문서 안에서 이 저장소 경로를 가리키는 텍스트는 일부러 안 고쳤다.
 
 ### 2. 최상위 폴더 10개
@@ -32,7 +32,7 @@
 | 30  | `30-data`          | 가상 브랜드(NQNQ) 기획 + 데이터 생성 설명 | 전원       | NQNQ는 실제 제품이 아니라 PoC 검증용 가상 브랜드. 그 기획 문서 전체와, 데이터 생성 스크립트에 대한 설명(스크립트 코드 자체는 Team 저장소에 있음) |
 | 40  | `40-pipeline`      | 데이터·인프라·백엔드 API             | 최민       | Blob/Data Factory 파이프라인, Dataverse 인프라, 신규 C# API 서버(`FashionAI.Api`) 작업 지시서               |
 | 50  | `50-databricks`    | ML·모델링                      | 임현제      | Databricks 노트북, risk_score 계산 로직 관련 참고 문서                                                  |
-| 60  | `60-rag`           | RAG·자동화                     | 나경       | Power Automate 트리거 플로우, Teams Adaptive Card 관련 참고 문서 (이름은 RAG지만 실제 작업의 대부분은 승인 워크플로우 자동화)  |
+| 60  | `60-rag`           | RAG·자동화                     | 나경·박형준  | Power Automate 트리거 플로우, Teams Adaptive Card 관련 참고 문서 (이름은 RAG지만 실제 작업의 대부분은 승인 워크플로우 자동화). 박형준 2026-09-16 합류 |
 | 70  | `70-frontend`      | 대시보드·프론트                    | 나경·박형준   | ASP.NET Core MVC/Razor Pages 대시보드 스펙과 진행 상황                                                |
 | 80  | `80-presentation`  | 최종 발표                       | 나경       | 9/29 발표 슬라이드, 시연 스크립트, 데모 시나리오                                                             |
 | 90  | `90-startup-grant` | 모두의창업 2기 지원                 | 나경       | 학교 프로젝트와 별개 트랙(제출 마감 9/17). 같은 아이디어를 사업계획서 형태로 확장                                          |
@@ -97,7 +97,8 @@
 | `40-pipeline/41-readme` | 최민님 롤 진입점 — 담당 영역 요약, 참고 문서 링크 |
 | `40-pipeline/42-work-order-choimin` | 최민님 작업지시서 겸 결정 기록(Dataverse 인프라·C# API 서버) |
 | `50-databricks/readme` | 임현제님 롤 진입점(예외 3, 번호 없음) — risk_score 공식·피처 엔지니어링 참고 문서 모음 |
-| `60-rag/readme` | 나경 RAG·자동화 롤 진입점(예외 3, 번호 없음) |
+| `60-rag/61-readme` | 나경·박형준 RAG·자동화 롤 진입점 |
+| `60-rag/62-work-order-parkhyungjun` | 박형준 작업지시서 — Adaptive Card 템플릿부터 순서대로 |
 | `70-frontend/71-readme` | 프론트 롤 진입점 — Razor Pages 전환 배경, 레거시 React 코드 안내 |
 | `70-frontend/72-dashboard-spec` | 대시보드 v1(MVP, 본론)+v2(협업 확장, 부록) 통합 스펙 |
 

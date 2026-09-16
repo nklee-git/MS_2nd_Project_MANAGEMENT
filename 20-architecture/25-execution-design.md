@@ -36,7 +36,9 @@ ML(임현제)·RAG(나경)·프론트(나경·박형준)·백엔드(최민, 신�
 
 ---
 
-## 2. RAG·자동화 — Power Automate + Teams (담당: 나경)
+## 2. RAG·자동화 — Power Automate + Teams (담당: 나경·박형준, 2026-09-16부터 — [[00-wbs/03-meetings/2026-09-15-mentoring-followup|형준 데이터 적재 마무리]] 후 재배정)
+
+> **역할 분담**: 박형준은 2-2절 Adaptive Card JSON 템플릿 제작부터 착수(상세: [[60-rag/62-work-order-parkhyungjun]]). 나경은 Cloud Flow 본체(트리거·Wait for a response·Dataverse 업데이트)와 2-5·2-6절 스트레치 로직을 맡고, 형준이 익숙해지면 순차적으로 이관한다.
 
 ### 2-1. 요구사항분석
 > 실제 "RAG 챗봇"은 이번 스코프가 아니다([[21-system-model]] 서론에 이미 확정) — "RAG·자동화" 롤의 실제 작업은 **Power Automate 승인 워크플로우**다. 이름에 낚이지 않는다.
@@ -52,6 +54,7 @@ ML(임현제)·RAG(나경)·프론트(나경·박형준)·백엔드(최민, 신�
 - Power Automate Cloud Flow 1개: Dataverse 트리거(row created) → Adaptive Card 발송 → 응답 대기(Wait for a response) → Dataverse row 업데이트
 - Adaptive Card는 JSON 템플릿(Adaptive Cards Designer로 작성) — 필드는 `ReorderRecommendation` 7필드에서 그대로 매핑, 새 필드 만들지 않음
 - 스트레치 단계: 같은 플로우 안에 Azure OpenAI 호출 액션 추가, 입력은 같은 트리거 레코드에서 조회한 근거 데이터
+- **(2026-09-16 미확정 — 확인 필요)** 최민님 의견: 이 Azure OpenAI 호출을 Power Automate 커넥터 대신 `FashionAI.Api`(C#)에 엔드포인트로 얹으면 바로 붙일 수 있을 것 같다는 제안. 두 방식 다 기술적으로 가능(Azure OpenAI는 REST API라 Power Automate 커넥터든 C#의 `HttpClient` 호출이든 결국 같은 엔드포인트를 부름) — 차이는 "어디서 부르냐"뿐이다. 다만 이 항목은 **9/23 코어 체크포인트 통과 후에만** 착수하는 스트레치이므로, 지금 아키텍처를 바꾸지 말고 그 시점에 팀 논의로 확정할 것(4-2절 엔드포인트 계약에 5번째 엔드포인트를 추가하는 결정이 되므로 4절 "엔드포인트 4개 제한" 원칙과 함께 검토 필요).
 
 ### 2-3. 구현
 - Power Automate 메이커 포털에서 Dataverse 커넥터로 트리거 플로우 생성(로우코드 — 별도 배포 불필요)

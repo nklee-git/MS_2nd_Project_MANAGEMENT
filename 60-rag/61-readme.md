@@ -2,7 +2,10 @@
 
 RAG·자동화 롤 실행 폴더. Power Automate 트리거 플로우, Teams Adaptive Card 정의를 여기 담습니다.
 
+> **담당**: 나경(플로우 설계·에스컬레이션 로직) · 박형준(2026-09-16부터 합류 — Adaptive Card 템플릿 제작부터 시작). 데이터 적재(customer·factory) 작업 마무리 후 워크플로우 재배정([[2026-09-15-mentoring-followup]] 5절)에 따라 새로 맡은 영역. 상세 작업 순서는 [[62-work-order-parkhyungjun]] 참고.
+
 ## 참고 문서
+- [[62-work-order-parkhyungjun]] — 박형준 작업지시서(무엇부터 해야 하는지 순서·판단 기준 포함)
 - [[22-feature-spec]] 1-3절 — 데이터 흐름 순서(Dataverse 레코드 생성 → Power Automate 트리거 → Teams Adaptive Card → 승인 시 상태 업데이트)
 - [[21-system-model]] 부록 A — 예측근거 자연어 설명 기능(2026-09-10 채택 확정, Tier 1 스트레치 — 착수 순서만 코어 이후로 결정된 상태)
 - [[72-dashboard-spec]] 7절 — Teams 연동 상세(필수: 승인 알림 / Should: 웹사이트 탭)
