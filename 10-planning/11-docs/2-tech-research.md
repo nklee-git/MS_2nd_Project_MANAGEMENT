@@ -305,7 +305,7 @@ Microsoft 책임 있는 AI 6대원칙(공정성·안정성 및 안전성·개인
 | PostgreSQL | 관계형 스키마 설계 감각 → Dataverse 테이블 설계 |
 | Machine Learning | 핵심 데모(수요예측) |
 | Azure Data Factory | 데이터 파이프라인 Must-have |
-| Azure OpenAI | Tier 1 스트레치(예측근거 자연어 설명) |
+| Azure AI Foundry (당초 "Azure OpenAI"로 적었던 항목, 2026-09-17 정정) | Tier 1 스트레치(예측근거 자연어 설명) — 2-4절에 이미 나오듯 공식 커리큘럼 7개 항목에 정확히 이 이름으로 포함돼 있어 "Azure OpenAI"보다 매칭이 더 좋음. 임현제가 9/17 실제로 모델 배포+API Key 호출까지 진행 |
 | Power Apps | Dataverse 테이블 제작 기반(단, SharePoint 백엔드로 배워서 Dataverse 자체는 처음) |
 | Power Automate | 승인 워크플로우 핵심 |
 

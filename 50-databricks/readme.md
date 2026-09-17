@@ -23,6 +23,7 @@ ML·모델링 롤 실행 폴더. Databricks 노트북(피처 엔지니어링~학
 
 ### GenAI 예측근거 자연어 설명 (2026-09-10 채택)
 - [[21-system-model]] 부록 A — ReAct 축소판 파이프라인(탐색→생성→검증) 기술 설계 초안, Structured Output 스키마까지 제안돼있음
+- **✅ 2026-09-17 밤 — 임현제 실제 착수**: Azure AI Foundry에서 모델 배포 후 API Key로 직접 호출하는 방식으로 본인 RAG 프로토타입에 이미 연결함. 팀 차원 "호출 위치" 결정([[25-execution-design]] 2-2절)과는 별개로 진행된 개인 작업이라 공용화 여부는 미확정 — [[23-cost-plan]]에 비용도 아직 미반영
 
 ### 2026-09-10 새로 결정된 것
 - [[04.MS-DataSchool/20.PROJECT/22.MS_2nd_Project/00-wbs/03-meetings/2026-09-10-townhall]] C·D·F절 — recommended_qty(재발주는 SKU 독립계산·판매현황 기반, 신규출시만 K3 비율배분), 예측대조 데이터 저장방식(미정, 작업하면서 판단), GenAI 예측근거 설명 채택

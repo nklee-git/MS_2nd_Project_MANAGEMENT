@@ -107,7 +107,9 @@ flowchart LR
 
 **왜 완전 자동생성이 아닌가**: Human-in-the-loop 원칙 그대로 — 설명은 "참고용 1줄"만, 승인/반려는 사람. XAI 연구에서 설명이 "과신(over-reliance)"을 유발할 수 있다는 근거 — [Explain To Decide: XAI in AI-assisted Decision Making](https://arxiv.org/pdf/2312.11507)(arXiv). 학술 원본: Yao et al., ["ReAct"](https://react-lm.github.io/), ICLR 2023.
 
-**의존성**: Azure OpenAI 학습 여부([[2-tech-research]]), risk_score 공식 확정([[24-alert-rules]]).
+**의존성**: risk_score 공식 확정([[24-alert-rules]]).
+
+**✅ 2026-09-17 밤 갱신 — 실제로 이미 착수됨**: 임현제가 **Azure AI Foundry에서 모델을 배포하고 API Key로 직접 호출**하는 방식으로 본인의 구조화 데이터 RAG 프로토타입(발주근거·위험도·추천발주량 자연어 질의)에 LLM을 이미 연결했다고 보고(9/17). 원래 "Azure OpenAI 학습 여부"만 확인된 상태였는데, 실제로는 **Azure AI Foundry**를 썼고 — 오히려 이게 학교 공식 커리큘럼 7개 항목에 Azure OpenAI 대신 정확히 명시된 서비스라 적합성이 더 좋음([[2-tech-research]] 2-4절). 단, ① 이 배포·호출은 임현제 개인 작업 기준이라 팀 차원에서 "호출 위치"를 정식 확정한 적은 없음([[25-execution-design]] 2-2절 미확정 사항과 충돌), ② 모델 호스팅/추론 비용이 [[23-cost-plan]]에 전혀 반영 안 돼 있음 — 확인 필요.
 
 ### MAI 대화형 후속 질의 — 추가 심화안 (완전 독립 스트레치)
 기본안(정적 1줄) 위에 "더 물어보기" 버튼을 얹어 MD가 자유 질문하면 같은 ReAct 파이프라인으로 답하는 확장. 코어 MVP 배포·QA 완료 후에만 착수 — 순서 바뀌면 안 됨. 무신사 MAI를 발표에서 벤치마킹 사례로 인용 가능([[4-differentiation-ideas]]).

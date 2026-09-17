@@ -1,4 +1,6 @@
 > **레거시 참고**: 실제 구현 코드는 [[04.MS-DataSchool/20.PROJECT/22.MS_2nd_Project/70-frontend/71-readme|70-frontend/readme.md]] 참고. 2026-09-10 React→ASP.NET Core MVC/Razor Pages 전환 확정 — 아래 화면·기능 스펙 자체는 유효하지만 구현 코드는 React(v0.5.0) 기준이라 레거시.
+> **2026-09-17 갱신 — 담당자·탭 구성 재확인 필요**: 나경이 9/10 만든 ASP.NET Core MVC 스캐폴딩(아래 0절 탭 구성: 홈|협업허브|승인이력|예측대조|데이터조회|버전기록)은 다른 개발환경 기준 목업이라 **아카이빙**됨 — 지금 실제로 개발 중인 대시보드는 최민(개발자 리드) 담당.
+> **2026-09-17 밤 갱신 (2차, GitHub 직접 확인) — "전언 기준" 탭 목록 정정**: 위 배너에 적었던 "협업허브·승인이력·예측대조·데이터조회·설정"은 최민님 본인이 아니라 전해들은 내용이었는데, 실제 저장소(`choimin0122-png/Microsoft-Project-Solar-for-Microsoft`, 커밋 1개, 2026-09-15)를 클론해서 확인해보니 **틀렸다**. 실제로는: ① 웹이 아니라 **.NET MAUI 앱**(Android/iOS/MacCatalyst/Windows), ② 페이지는 **홈·승인이력·예측대조·데이터조회·협업허브·인증(로그인 플로우)** 6개 — "설정" 페이지는 없고 "홈"은 있음, ③ 서비스 계층이 전부 `Mock*Service`(인증·데이터·발주추천)라 실 데이터 연동 전, ④ 백엔드 `FashionAiDashboard.Api`는 `dotnet new webapi` 기본 템플릿뿐(`WeatherForecastController` 샘플) — 실제 엔드포인트 0개. 커밋이 9/15 것 하나뿐이라 9/16~17에 보고된 내용(로그인, APP 테이블)은 반영 안 됐을 수 있음 — 최신 상태 재확인 필요. 아래 화면별 상세 스펙(Must/Should/Could)은 웹 대시보드 기준으로 쓰여 있어 MAUI 앱과 1:1로 안 맞을 가능성이 높음 — 새로 문서화 필요.
 
 ## 서론
 
