@@ -2,10 +2,10 @@
 > **용도**: 팀원 확정 직후, 첫 회의(Week 0) 전에 다같이 끝내둘 준비 작업. 여기 있는 걸 미리 해두면 Week 0 회의를 "설치 삽질"이 아니라 "기능명세 논의"로 바로 시작할 수 있음.
 
 ## 🛠️ 공통 도구 설치 (전원)
-- [ ] Obsidian 설치 + vault(GitHub repo) clone 후 열기 #todo/onboarding
-- [ ] Dataview 플러그인 설치·활성화 (설정 → Community plugins → 검색 → 설치 → 토글 ON → **Obsidian 완전 재시작**) — 이거 안 하면 [[1-todo-board]]나 나경 개인 TODO 보드 같은 Dataview 쿼리 문서가 안 보임 #todo/onboarding
-- [ ] Git 설치 확인(`git --version`) + GitHub 계정 준비 #todo/onboarding
-- [ ] GitHub repo 초대 수락 + clone (공유 방식은 [[1-kickoff-brief]] 참고) #todo/onboarding
+- [x] Obsidian 설치 + vault(GitHub repo) clone 후 열기 #todo/onboarding
+- [x] Dataview 플러그인 설치·활성화 (설정 → Community plugins → 검색 → 설치 → 토글 ON → **Obsidian 완전 재시작**) — 이거 안 하면 [[1-todo-board]]나 나경 개인 TODO 보드 같은 Dataview 쿼리 문서가 안 보임 #todo/onboarding
+- [x] Git 설치 확인(`git --version`) + GitHub 계정 준비 #todo/onboarding
+- [x] GitHub repo 초대 수락 + clone (공유 방식은 [[1-kickoff-brief]] 참고) #todo/onboarding
 
 ## 🔑 계정/권한 (나경이 초대 → 각자 수락)
 
@@ -20,13 +20,13 @@
 - [x] 최민 · 현제 2명 다 됐는지 [[1-execution-plan]] 3-1절에 체크 ✅ 2026-09-12
 
 ### 팀원이 할 일 (초대받은 뒤)
-- [ ] 본인 학교 M365 계정으로 [make.powerapps.com](https://make.powerapps.com) 로그인 #todo/onboarding
-- [ ] 우측 상단 환경 이름 클릭 → 드롭다운에서 **"2nd_5team"** 선택 (안 보이면 몇 분 기다리거나 재로그인) #todo/onboarding
-- [ ] 왼쪽 "테이블" 메뉴에서 Account·Contact 같은 기본 테이블 목록이 보이면 접속 성공 #todo/onboarding
+- [x] 본인 학교 M365 계정으로 [make.powerapps.com](https://make.powerapps.com) 로그인 #todo/onboarding
+- [x] 우측 상단 환경 이름 클릭 → 드롭다운에서 **"2nd_5team"** 선택 (안 보이면 몇 분 기다리거나 재로그인) #todo/onboarding
+- [x] 왼쪽 "테이블" 메뉴에서 Account·Contact 같은 기본 테이블 목록이 보이면 접속 성공 #todo/onboarding
 - [ ] **주의**: 계정/비밀번호를 공유받는 게 아니라 각자 본인 계정으로 접속하는 방식임 — 로그인 정보 요청받으면 잘못된 것
 
 ### 그 외
-- [ ] Azure 구독/리소스 그룹 접근 권한 확인 (팀 공유 구독 또는 Azure for Students) #todo/onboarding
+- [x] Azure 구독/리소스 그룹 접근 권한 확인 (팀 공유 구독 또는 Azure for Students) #todo/onboarding
 - [x] Teams 채널 초대 #todo/onboarding
 
 ## 📖 읽고 올 것 (순서대로)
@@ -47,5 +47,5 @@
 - **주의**: 파일을 직접 고치거나 git 커밋/푸시하는 것 같은 되돌리기 번거로운 작업은 하기 전에 먼저 물어보게 하는 게 안전함 — "이렇게 고치면 될까?"라고 반드시 확인받고 진행
 
 ## 💡 각자 준비해올 것
-- [ ] 자기 롤의 TBD 항목에 대한 초안 의견 최소 1개 (완벽하지 않아도 됨 — Week 0는 논의의 시작점이지 발표 자리가 아님) #todo/onboarding
+- [x] 자기 롤의 TBD 항목에 대한 초안 의견 최소 1개 (완벽하지 않아도 됨 — Week 0는 논의의 시작점이지 발표 자리가 아님) #todo/onboarding
 - [ ] 로컬 개발환경(Python/Node 등)은 롤별로 다르므로 Week 0에서 같이 정리 — 미리 안 깔아도 됨
